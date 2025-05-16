@@ -1,10 +1,28 @@
 const express = require('express')
-const router = express.Router()
+const cors = require('cors');
+const connection = require('../../db/connection')
+const songModel = require('../../db/songSchema')
 
+const router = express.Router()
+connection(()=>{
+    songModel.find({}).then((data,err)=>{
+        if(err){
+            console.log(err)
+        }else{
+            console.log(data)
+            router.get('/songlist', (req, res) => {
+                res.json(data)
+            })
+        }
+    })
+    
+
+
+
+},(err)=>{console.log(err)})
 router.get('/', (req, res) => {
-    res.send('this is api page')
+    res.json({url: 'http://127.0.0.1:3000/localmusics/1141641196.mp3'})
 })
-router.get('/:id', (req, res) => {
-    req.params.id ? res.send(`this is api page with id ${req.params.id}`) : res.send('you must enter id')
-})
+
+
 module.exports = router

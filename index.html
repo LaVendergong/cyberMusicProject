@@ -10,7 +10,6 @@
 </head>
 <body>
     
-
     <!-- 导航栏 -->
     <header>
         <div class="neon-bar"></div>
@@ -53,10 +52,10 @@
 
             <!-- 控制按钮 -->
             <div class="controls">
-                <button class="control-btn"><i class="fas fa-random"></i></button>
-                <button class="control-btn"><i class="fas fa-step-backward"></i></button>
+                <button class="control-btn mode"> <i class="fa-solid fa-right-long"></i></button>
+                <button class="control-btn before"><i class="fas fa-step-backward"></i></button>
                 <button class="control-btn play-btn"><i class="fas fa-play"></i></button>
-                <button class="control-btn"><i class="fas fa-step-forward"></i></button>
+                <button class="control-btn after"><i class="fas fa-step-forward"></i></button>
                 <button class="control-btn"><i class="fas fa-redo"></i></button>
             </div>
 
@@ -70,15 +69,55 @@
                 <canvas id="spectrum"></canvas>
             </div>
 
+            <div class="songlist recommended">
+                <ul>
+                    
+                </ul>
+                <ul>
+                    <li>test</li>
+                </ul>
+            </div>
             <!-- 音频元素 -->
-            <audio id="audio-player" src="./1141641196.mp3"></audio>
+            <audio id="audio-player" src="" crossOrigin="anonymous"></audio> <!-- 增加跨域属性 -->
         </div>
     </main>
 
-    <!-- 粒子背景 -->
+    
     <canvas id="particles"></canvas>
-
+     <script>
+        // 修改后的音频初始化逻辑
+        const backhost = 'http://127.0.0.1:3000/api';
+        const audioPlayer = document.getElementById('audio-player');
+        
+        // 使用Fetch API替代XMLHttpRequest
+        fetch(backhost, {
+            credentials: 'include' // 允许携带cookie
+        })
+            .then(response => {
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                return response.json(); // 假设后端返回JSON格式 { url: 'audio-file.mp3' }
+            })
+            .then(data => {
+                audioPlayer.src = data.url;
+                audioPlayer.load(); // 必须调用load()方法
+                
+            })
+            .catch(error => {
+                console.error('请求失败:', error);
+                // 可以在这里设置默认音频源
+                audioPlayer.src = '/fallback.mp3'; 
+            });
+    
+        // 添加错误监听
+        audioPlayer.addEventListener('error', function(e) {
+            console.error('音频加载错误:', e.target.error);
+        });
+    </script>
     <script src="./my.js"></script>
+    <script src="./musicPlayer.js"></script>
+    <script src="./likedList.js"></script>
+    <script src="./playlist.js"></script>
+    
     
 </body>
 </html>

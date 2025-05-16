@@ -13,6 +13,7 @@ const particleCanvas = document.getElementById('particles');
 const pCtx = particleCanvas.getContext('2d');
 const neonBar = document.querySelector('.neon-bar');
 
+
 // 音频分析相关
 let audioCtx, analyser, dataArray;
 const smoothing = 0.7;
@@ -61,6 +62,8 @@ function setupAudioControls() {
     // 音频事件监听
     audio.addEventListener('timeupdate', updateProgress);
     audio.addEventListener('loadedmetadata', updateDuration);
+    
+    
 }
 
 function togglePlay() {
@@ -72,6 +75,7 @@ function togglePlay() {
         audio.pause();
         albumArt.classList.remove('playing');
     }
+
     updatePlayIcon();
 }
 
@@ -88,6 +92,9 @@ function updateProgress() {
 }
 
 function updateDuration() {
+    if (isNaN(audio.duration)) {
+        return;
+    }
     durationEl.textContent = formatTime(audio.duration);
 }
 
@@ -298,3 +305,8 @@ window.addEventListener('load', () => {
         this.removeEventListener('click', initOnClick);
     }, { once: true });
 });
+
+audio.addEventListener('loadeddata', () => {
+    console.log("here")
+    updatePlayIcon();
+})

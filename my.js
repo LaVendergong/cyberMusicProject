@@ -6,6 +6,7 @@ const previousData = [];
 const playbtn = document.querySelector('.play-btn')
 const audio = document.querySelector('#audio-player')
 
+
 playbtn.addEventListener('click', () => {
     playbtn.classList.toggle('playing')
     
@@ -53,6 +54,18 @@ audio.addEventListener('timeupdate', () => {
     progressBar.children[0].style.width = `${progressPercent}%` // 更新进度条宽度
     currentTimeEl.innerHTML = formatTime(currentTime) // 更新当前时间
     durationEl.innerHTML = formatTime(duration) // 更新总时长
+})
+
+
+
+//音乐结束
+
+audio.addEventListener('waiting', () => {
+    durationEl.innerHTML = '0:00'; // 更新总时长
+})
+
+audio.addEventListener('loadedmetadata', () => {
+    durationEl.innerHTML = formatTime(audio.duration); // 更新总时长
 })
 
 function formatTime(seconds) {
@@ -233,3 +246,4 @@ function animateParticles() {
 
 initParticles();
 animateParticles();
+

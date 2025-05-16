@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const cors = require('cors');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -14,11 +15,25 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+
+
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors({
+  origin: 'http://127.0.0.1:5501', // 必须明确指定前端源地址
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE']
+}));
+// 确保静态文件服务也启用CORS
+app.use(express.static(path.join(__dirname, 'public'), {
+  setHeaders: (res) => {
+      res.set('Access-Control-Allow-Origin', 'http://127.0.0.1:5501');
+      res.set('Access-Control-Allow-Credentials', 'true');
+  }
+}));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
