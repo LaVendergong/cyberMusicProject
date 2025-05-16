@@ -1,0 +1,729 @@
+@media (max-width: 768px) {
+    nav {
+        flex-direction: column;
+        padding: 1rem;
+    }
+    
+    
+    .logo {
+        margin-bottom: 1rem;
+        margin-right: 0;
+    }
+    
+    .nav-links {
+        margin-left: 0;
+        gap: 1rem;
+    }
+    .player-container {
+        padding: 1.5rem;
+    }
+    
+    .album-art {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .controls {
+        gap: 1rem;
+    }
+    
+    .control-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+    
+    .play-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+    }
+}
+
+
+
+@keyframes glitch-effect {
+    0% { transform: translate(0); }
+    20% { transform: translate(-3px, 3px); }
+    40% { transform: translate(-3px, -3px); }
+    60% { transform: translate(3px, 3px); }
+    80% { transform: translate(3px, -3px); }
+    100% { transform: translate(0); }
+}
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}
+@keyframes equalizer {
+    0% { height: 10%; }
+    100% { height: 100%; }
+}
+
+@keyframes equalizer {
+    0% { height: 10%; }
+    100% { height: 100%; }
+}
+
+
+
+/* 流动光效动画 */
+@keyframes flowingNeon {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* 呼吸闪烁效果 */
+@keyframes flicker {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        opacity: 0.6;
+        text-shadow: 0 0 5px currentColor;
+    }
+    20%, 24%, 55% {
+        opacity: 0.2;
+        text-shadow: none;
+    }
+}
+
+@keyframes energy-pulse {
+    0%, 100% { 
+        box-shadow: 0 0 5px var(--neon-blue);
+    }
+    50% { 
+        box-shadow: 0 0 30px var(--neon-pink);
+        filter: hue-rotate(30deg);
+    }
+}
+
+@keyframes flux {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 200% 200%; }
+}
+
+:root {
+    --neon-pink: #FF00FF;
+    --neon-blue: #00F0FF;
+    --neon-purple: #9D00FF;
+    --dark-bg: #0A0A12;
+}
+
+/* 基础重置与字体 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Rajdhani', sans-serif;
+    background-color: #0A0A12;
+    color: #00F0FF;
+    overflow-x: hidden;
+}
+
+/* 导航栏容器 */
+nav {
+    display: flex;
+    justify-content: space-between; /* 左右分散对齐 */
+    align-items: center;
+    padding: 1rem 5%; /* 增加水平内边距 */
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+
+
+/* 导航链接容器 */
+.nav-links {
+    display: flex;
+    gap: 2rem; /* 增加间距 */
+    margin-left: auto; /* 将链接推到右侧 */
+    padding: 0;
+}
+
+/* 单个导航项 */
+.nav-links li {
+    list-style: none;
+}
+
+/* 导航链接文字 */
+.nav-links a {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.2rem; /* 增大字体 */
+    font-weight: 600;
+    text-transform: uppercase; /* 字母大写 */
+    letter-spacing: 1px;
+    padding: 0.5rem 0;
+    position: relative;
+}
+
+/* 霓虹光效增强 */
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #00F0FF;
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+
+
+
+
+
+
+
+
+:root {
+    --neon-pink: #FF00FF;
+    --neon-blue: #00F0FF;
+    --neon-purple: #9D00FF;
+    --dark-bg: #0A0A12;
+}
+
+body {
+    font-family: 'Rajdhani', sans-serif;
+    background-color: var(--dark-bg);
+    color: var(--neon-blue);
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 扫描线效果 */
+.scanlines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        rgba(0, 240, 255, 0.05) 1px,
+        transparent 2px
+    );
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* 导航栏 */
+header {
+    padding: 1.5rem 5%;
+    background: rgba(10, 10, 18, 0.8);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--neon-purple);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.logo {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: var(--neon-blue);
+    text-shadow: 0 0 10px var(--neon-blue);
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+}
+
+.nav-links a {
+    color: var(--neon-blue);
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 0.3s;
+    position: relative;
+}
+
+.nav-links a:hover {
+    color: var(--neon-pink);
+    text-shadow: 0 0 10px var(--neon-pink);
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--neon-blue);
+    transition: width 0.3s;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+/* 主内容区 */
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+/* 播放器容器 */
+.player-container {
+    width: 100%;
+    max-width: 800px;
+    background: rgba(20, 20, 30, 0.7);
+    border: 1px solid var(--neon-purple);
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 0 30px rgba(157, 0, 255, 0.3);
+    backdrop-filter: blur(10px);
+    margin-bottom: 2rem;
+}
+
+/* 专辑封面 */
+.album-art {
+    position: relative;
+    width: 250px;
+    height: 250px;
+    margin: 0 auto 2rem;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
+    border: 2px solid var(--neon-blue);
+}
+
+.album-art img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+}
+
+.album-art:hover img {
+    transform: scale(1.05);
+}
+
+/* 黑胶效果 */
+.vinyl {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: 
+        radial-gradient(circle, #111 30%, transparent 30%),
+        repeating-radial-gradient(circle, #111 0%, #111 1%, #333 1%, #333 2%);
+    opacity: 0;
+    transition: opacity 0.5s, transform 0.5s;
+    pointer-events: none;
+}
+
+.playing .vinyl {
+    opacity: 0.7;
+    transform: rotate(360deg);
+    animation: spin 3s linear infinite;
+}
+
+
+
+/* 歌曲信息 */
+.track-info {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.track-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    color: var(--neon-pink);
+    margin-bottom: 0.5rem;
+    letter-spacing: 2px;
+}
+
+.artist {
+    font-size: 1.2rem;
+    color: var(--neon-blue);
+    margin-bottom: 1rem;
+}
+
+/* 进度条 */
+.progress-container {
+    width: 100%;
+    margin: 1.5rem 0;
+}
+
+.progress-bar {
+    height: 6px;
+    background: rgba(0, 240, 255, 0.2);
+    border-radius: 3px;
+    margin-bottom: 5px;
+    position: relative;
+    cursor: pointer;
+}
+
+.progress {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(to right, var(--neon-pink), var(--neon-purple));
+    border-radius: 3px;
+    position: relative;
+}
+
+.progress::after {
+    content: '';
+    position: absolute;
+    right: -5px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 10px;
+    height: 10px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 5px white;
+}
+
+.time-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: var(--neon-blue);
+}
+
+/* 控制按钮 */
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+}
+
+.control-btn {
+    background: none;
+    border: none;
+    color: var(--neon-blue);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.control-btn:hover {
+    color: var(--neon-pink);
+    text-shadow: 0 0 10px var(--neon-pink);
+    background: rgba(255, 0, 255, 0.1);
+}
+
+.play-btn {
+    background: rgba(0, 240, 255, 0.1);
+    border: 1px solid var(--neon-blue);
+    font-size: 1.8rem;
+    width: 60px;
+    height: 60px;
+}
+
+.play-btn:hover {
+    background: rgba(255, 0, 255, 0.2);
+    border-color: var(--neon-pink);
+}
+
+/* 音量控制 */
+.volume-control {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+    position: relative;
+}
+
+.volume-icon {
+    color: var(--neon-blue);
+    font-size: 1.2rem;
+}
+
+
+/* 修改音量滑块的样式，使其更美观 */
+.volume-slider {
+    -webkit-appearance: none;
+    width: 650px;
+    height: 8px; /* 增加滑块高度 */
+    background: rgba(0, 240, 255, 0.1); /* 调整背景颜色 */
+    border-radius: 0px; /* 增加圆角 */
+    outline: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto; /* 居中 */
+     /* 移除默认样式 */
+    box-shadow: 0 0 5px rgba(0, 240, 255, 0.3); /* 添加阴影效果 */
+    transition: background 0.3s; /* 添加过渡效果 */
+}
+
+.volume-slider:hover {
+    background: rgba(0, 240, 255, 0.2); /* 悬停时背景颜色变化 */
+}
+
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px; /* 增加滑块拇指的大小 */
+    height: 20px; /* 增加滑块拇指的大小 */
+    border-radius: 50%;
+    background: linear-gradient(45deg, var(--neon-pink), var(--neon-blue)); /* 使用渐变背景 */
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(255, 0, 255, 0.5); /* 增加阴影效果 */
+    transition: transform 0.3s; /* 添加过渡效果 */
+}
+
+.volume-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.1); /* 悬停时滑块拇指放大 */
+}
+
+
+
+
+
+/* 频谱图容器样式 */
+.visualizer {
+    width: 100%;
+    height: 220px;
+    margin-top: 2rem;
+    background: linear-gradient(
+        to bottom, 
+        rgba(10, 10, 30, 0.9),
+        rgba(5, 5, 15, 0.9)
+    ); /* 更暗的背景 */
+    border: 1px solid var(--neon-blue); /* 青色边框 */
+    border-radius: 10px;
+    overflow: hidden;
+    /* 移除原有阴影效果 */
+    box-shadow: none;
+    position: relative;
+}
+
+#spectrum {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+
+
+/* 附加组件 */
+.player-extras {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+}
+
+.extra-btn {
+    background: none;
+    border: 1px solid var(--neon-blue);
+    color: var(--neon-blue);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 0.9rem;
+}
+
+.extra-btn:hover {
+    background: rgba(0, 240, 255, 0.1);
+    border-color: var(--neon-pink);
+    color: var(--neon-pink);
+}
+
+
+
+/* 粒子画布样式 */
+#particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -2; /* 在扫描线之下 */
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+
+
+
+
+
+/* 霓虹灯条背景 */
+.neon-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        var(--neon-blue),
+        var(--neon-pink),
+        var(--neon-purple),
+        transparent);
+    background-size: 200% 100%;
+    animation: flowingNeon 6s linear infinite;
+    opacity: 0.3;
+    z-index: 0;
+}
+
+/* 导航链接容器定位 */
+nav {
+    position: relative; /* 为霓虹灯条建立定位上下文 */
+}
+
+/* 文字霓虹效果增强 */
+.neon-text {
+    position: relative;
+    display: inline-block;
+}
+
+.neon-text::before {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    color: var(--neon-blue);
+    text-shadow: 0 0 10px var(--neon-blue);
+    animation: flicker 3s infinite alternate;
+    opacity: 0.7;
+    z-index: -1;
+}
+
+.neon-text::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    color: var(--neon-pink);
+    text-shadow: 0 0 5px var(--neon-pink);
+    animation: flicker 2s infinite alternate-reverse;
+    opacity: 0.5;
+    z-index: -2;
+}
+
+
+
+/* 悬停时增强效果 */
+.nav-links a:hover .neon-text::before {
+    animation: flicker 0.5s infinite alternate;
+}
+
+.nav-links a:hover .neon-text::after {
+    animation: flicker 0.3s infinite alternate-reverse;
+}
+
+/* 增强可视化效果 */
+.bars div {
+    transition: height 0.1s ease-out, opacity 0.2s;
+}
+
+/* 音频播放时的黑胶效果 */
+.playing .vinyl {
+    opacity: 0.8;
+    animation: spin 3s linear infinite;
+}
+
+/* 进度条光标 */
+.progress::after {
+    content: '';
+    position: absolute;
+    right: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 12px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--neon-pink);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.progress-bar:hover .progress::after {
+    opacity: 1;
+}
+
+
+/* 能量脉冲特效 */
+.control-btn {
+    animation: energy-pulse 3s infinite;
+}
+
+
+
+/* 三维流光效果 */
+.album-art::after {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: linear-gradient(45deg,
+        transparent 48%,
+        var(--neon-blue) 50%,
+        transparent 52%
+    );
+    animation: flux 3s linear infinite;
+    opacity: 0.3;
+    z-index: -1;
+    background-size: 200% 200%;
+}
+
+
+
+/* 动态粒子优化样式 */
+.particle-optimized {
+    opacity: 0.8;
+    transition: opacity 0.3s;
+}
+
+/* 添加canvas容器固定尺寸 */
+.canvas-container {
+    position: relative;
+    width: 100%;
+    height: 200px; /* 固定高度 */
+    overflow: hidden;
+  }
+  
+  #spectrum {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: block; /* 关键属性 */
+  }

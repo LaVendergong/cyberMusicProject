@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CYBERBEAT | 波形音乐播放器</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+
+    <!-- 导航栏 -->
+    <header>
+        <div class="neon-bar"></div>
+        <nav>
+            <div class="logo">CYBERBEAT</div>
+            <ul class="nav-links">
+                <li><a href="#">首页</a></li>
+                <li><a href="#">探索</a></li>
+                <li><a href="#">歌单</a></li>
+                <li><a href="#">实验室</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- 主内容区 -->
+    <main>
+        <div class="player-container">
+            <!-- 专辑封面 -->
+            <div class="album-art">
+                <div class="vinyl"></div>
+                <img src="https://ts1.tc.mm.bing.net/th/id/R-C.cd4d1907b4bf2fdef5b8ac246b20c6fa?rik=W8PYNxfYr82YQA&riu=http%3a%2f%2fi.gtimg.cn%2fqqlive%2fimg%2fjpgcache%2ffiles%2fqqvideo%2f9%2f9wcrz7hl4qasz4m.jpg&ehk=EE1F1DIjerWCgoAht40kgy19qgYTPZf82L4xEvJoLfk%3d&risl=&pid=ImgRaw&r=0" alt="专辑封面">
+            </div>
+
+            <!-- 歌曲信息 -->
+            <div class="track-info">
+                <h2 class="track-title">NEON DREAMS</h2>
+                <p class="artist">SYNTHWAVE_404</p>
+            </div>
+
+            <!-- 进度条 -->
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress" style="width: 0%"></div>
+                </div>
+                <div class="time-info">
+                    <span class="current-time">0:00</span>
+                    <span class="duration">0:00</span>
+                </div>
+            </div>
+
+            <!-- 控制按钮 -->
+            <div class="controls">
+                <button class="control-btn"><i class="fas fa-random"></i></button>
+                <button class="control-btn"><i class="fas fa-step-backward"></i></button>
+                <button class="control-btn play-btn"><i class="fas fa-play"></i></button>
+                <button class="control-btn"><i class="fas fa-step-forward"></i></button>
+                <button class="control-btn"><i class="fas fa-redo"></i></button>
+            </div>
+
+            <!-- 音量控制 -->
+            <div class="volume-control">
+                <i class="fas fa-volume-up volume-icon"></i>
+                <input type="range" class="volume-slider" min="0" max="100" value="70">
+            </div>
+            <!-- 频谱图 -->
+            <div class="visualizer">
+                <canvas id="spectrum"></canvas>
+            </div>
+
+            <!-- 音频元素 -->
+            <audio id="audio-player" src="./1141641196.mp3"></audio>
+        </div>
+    </main>
+
+    <!-- 粒子背景 -->
+    <canvas id="particles"></canvas>
+
+    <script src="./my.js"></script>
+    
+</body>
+</html>
