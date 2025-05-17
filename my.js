@@ -422,3 +422,76 @@ function animateParticles() {
 initParticles();
 animateParticles();
 
+// ==================== 键盘控制系统 ====================
+let lastVolume = audio.volume; // 存储上次的音量，用于静音切换
+
+// 键盘控制功能
+document.addEventListener('keydown', (e) => {
+    // 防止按键默认行为（例如空格键滚动页面）
+    if(['Space', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.code)) {
+        e.preventDefault();
+    }
+    
+    switch(e.code) {
+        case 'Space': // 空格键控制播放/暂停
+            if(playbtn.classList.contains('playing')) {
+                audio.pause();
+                playbtn.classList.remove('playing');
+                playbtn.innerHTML = '<i class="fas fa-play"></i>';
+            } else {
+                audio.play();
+                playbtn.classList.add('playing');
+                playbtn.innerHTML = '<i class="fas fa-pause"></i>';
+                if (!audioCtx) initAudioAnalyser();
+            }
+            break;
+            
+        case 'ArrowLeft': // 左方向键快退5秒
+            audio.currentTime = Math.max(0, audio.currentTime - 5);
+            break;
+            
+        case 'ArrowRight': // 右方向键快进5秒
+            audio.currentTime = Math.min(audio.duration, audio.currentTime + 5);
+            break;
+            
+        case 'ArrowUp': // 上方向键增加音量
+            audio.volume = Math.min(1, audio.volume + 0.1);
+            volumeSlider.value = audio.volume * 100;
+            updateVolumeIcon();
+            break;
+            
+        case 'ArrowDown': // 下方向键减小音量
+            audio.volume = Math.max(0, audio.volume - 0.1);
+            volumeSlider.value = audio.volume * 100;
+            updateVolumeIcon();
+            break;
+            
+        case 'KeyM': // M键控制静音
+            if(audio.volume > 0) {
+                lastVolume = audio.volume;
+                audio.volume = 0;
+                volumeSlider.value = 0;
+            } else {
+                audio.volume = lastVolume;
+                volumeSlider.value = lastVolume * 100;
+            }
+            updateVolumeIcon();
+            break;
+
+        case 'KeyA': // A键切换上一首
+            const prevBtn = document.querySelector('.controls .before');
+            prevBtn.click();
+            break;
+
+        case 'KeyD': // D键切换下一首
+            const nextBtn = document.querySelector('.controls .after');
+            nextBtn.click();
+            break;
+
+        case 'KeyC': // C键切换播放模式
+            const modeBtn = document.querySelector('.controls .mode');
+            modeBtn.click();
+            break;
+    }
+});
+

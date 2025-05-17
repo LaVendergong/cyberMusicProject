@@ -86,10 +86,10 @@ function renderLikedSongs() {
         const song = songlist.find(song => song._id === songId);
         if (song) {
             likedList.innerHTML += `
-            <li>
+            <li data-song-id="${song._id}">
                 <div class="song">
                     <div class="songimg">
-                        <img src="${back + song.imgPath}" alt="">
+                        <img src="${back + song.imgPath}" alt="${song.songName}">
                     </div>
                     <div class="songname">
                         <span class="name">${song.songName}</span>
@@ -99,15 +99,95 @@ function renderLikedSongs() {
                         <span class="time">${Math.floor(song.duration/60)}:${song.duration%60 < 10?'0'+song.duration%60:song.duration%60}</span>
                     </div>
                     <div class="operation">
-                        <a><span class="play">播放</span></a>
-                        <span class="delete">删除</span>
+                        <span class="delete"></span>
                     </div>
                 </div>
+                
             </li>  
             `;
         }
     });
+
+    // 绑定播放和删除按钮的事件
+    bindLikedListEvents();
 }
+
+// 添加事件绑定函数
+function bindLikedListEvents() {
+    const likedList = document.querySelector('.songlist ul:nth-child(2)');
+    const songlist = window.MusicPlayer.songlist;
+
+    // 绑定图片点击播放事件
+    const songImages = likedList.querySelectorAll('.songimg');
+    songImages.forEach(image => {
+        image.addEventListener('click', (e) => {
+            const li = e.target.closest('li');
+            const songId = li.dataset.songId;
+            const songIndex = songlist.findIndex(song => song._id === songId);
+            
+            // 移除其他歌曲的playing类
+            songImages.forEach(img => img.classList.remove('playing'));
+            
+            if (songIndex !== -1) {
+                // 如果点击的是当前播放的歌曲
+                if (window.playingSong === songIndex && !audio.paused) {
+                    audio.pause();
+                    image.classList.remove('playing');
+                } else {
+                    window.playingSong = songIndex;
+                    updateSong(songIndex);
+                    image.classList.add('playing');
+                    
+                    const mainContent = document.querySelector('main');
+                    if (mainContent) {
+                        mainContent.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            }
+        });
+    });
+
+    // 绑定删除按钮事件
+    const deleteButtons = likedList.querySelectorAll('.operation .delete');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            const li = e.target.closest('li');
+            const songId = li.dataset.songId;
+            
+            // 从喜欢列表中移除
+            removeFromLikedList(songId);
+            
+            // 更新主列表中对应歌曲的"加入歌单"按钮状态
+            const mainListAddButton = document.querySelector(`.songlist ul:first-child li[data-song-id="${songId}"] .operation .add`);
+            if (mainListAddButton) {
+                mainListAddButton.classList.remove('added');
+            }
+        });
+    });
+}
+
+// 更新播放状态显示
+function updateLikedListPlayingStatus() {
+    const songImages = document.querySelector('.songlist ul:nth-child(2)').querySelectorAll('.songimg');
+    songImages.forEach(image => {
+        const li = image.closest('li');
+        const songId = li.dataset.songId;
+        const songIndex = window.MusicPlayer.songlist.findIndex(song => song._id === songId);
+        
+        if (songIndex === window.playingSong && !audio.paused) {
+            image.classList.add('playing');
+        } else {
+            image.classList.remove('playing');
+        }
+    });
+}
+
+// 监听音频播放状态变化
+audio.addEventListener('play', updateLikedListPlayingStatus);
+audio.addEventListener('pause', updateLikedListPlayingStatus);
 
 // 监听DOM加载完成
 document.addEventListener('DOMContentLoaded', () => {

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#0A0A12">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>CYBERBEAT | 波形音乐播放器</title>
@@ -19,12 +20,14 @@
         <div class="neon-bar"></div>
         <nav>
             <div class="logo">CYBERBEAT</div>
+            <button class="menu-btn"><i class="fas fa-bars"></i></button>
             <ul class="nav-links">
                 <li><a href="#">首页</a></li>
                 <li><a href="#">探索</a></li>
                 <li><a href="#">歌单</a></li>
                 <li><a href="#">实验室</a></li>
             </ul>
+            <button class="theme-btn mobile"><i class="fas fa-palette"></i></button>
         </nav>
     </header>
 
@@ -60,7 +63,7 @@
                 <button class="control-btn before"><i class="fas fa-step-backward"></i></button>
                 <button class="control-btn play-btn"><i class="fas fa-play"></i></button>
                 <button class="control-btn after"><i class="fas fa-step-forward"></i></button>
-                <button class="control-btn"><i class="fas fa-redo"></i></button>
+                <button class="control-btn share-btn"><i class="fas fa-share-alt"></i></button>
             </div>
 
             <!-- 音量控制 -->
@@ -78,7 +81,7 @@
                     
                 </ul>
                 <ul>
-                    <li>test</li>
+                    
                 </ul>
             </div>
             <!-- 音频元素 -->
@@ -88,6 +91,24 @@
 
     <canvas id="particles"></canvas>
     <script>
+        // 菜单控制
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuBtn = document.querySelector('.menu-btn');
+            const header = document.querySelector('header');
+            
+            menuBtn.addEventListener('click', function() {
+                header.classList.toggle('menu-open');
+            });
+
+            // 点击导航链接后自动收起菜单
+            const navLinks = document.querySelectorAll('.nav-links a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    header.classList.remove('menu-open');
+                });
+            });
+        });
+
         // 检测是否为移动端
         function isMobile() {
             return window.innerWidth <= 768;
@@ -162,7 +183,33 @@
     <script src="./musicPlayer.js"></script>
     <script src="./likedList.js"></script>
     <script src="./playlist.js"></script>
+    <script src="./share.js"></script>
+    <script src="./theme.js"></script>
     
-    
+    <!-- 分享弹窗 -->
+    <div class="share-modal" style="display: none;">
+        <div class="share-content">
+            <h3>分享到</h3>
+            <div class="share-options">
+                <button class="share-option wechat">
+                    <i class="fab fa-weixin"></i>
+                    <span>微信</span>
+                </button>
+                <button class="share-option qq">
+                    <i class="fab fa-qq"></i>
+                    <span>QQ</span>
+                </button>
+                <button class="share-option weibo">
+                    <i class="fab fa-weibo"></i>
+                    <span>微博</span>
+                </button>
+                <button class="share-option copy-link">
+                    <i class="fas fa-link"></i>
+                    <span>复制链接</span>
+                </button>
+            </div>
+            <button class="close-share">关闭</button>
+        </div>
+    </div>
 </body>
 </html>
