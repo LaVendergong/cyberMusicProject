@@ -25,3 +25,6 @@ QQ: 2640833939
 
 ## Here are the logs
 2025/5/16 22:14 add Global Event Bus and likedList to operate songlist and likedlist in different .js file 
+
+2025/5/17 18:01 change the logical of the audio visuallser system to make it more cool
+![image](https://github.com/user-attachments/assets/50296a06-482c-40f6-b08c-23f2b1f2f8fe)
