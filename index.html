@@ -2,11 +2,15 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0A0A12">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>CYBERBEAT | 波形音乐播放器</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="mobile.css" media="screen and (max-width: 768px)">
 </head>
 <body>
     
@@ -82,9 +86,50 @@
         </div>
     </main>
 
-    
     <canvas id="particles"></canvas>
-     <script>
+    <script>
+        // 检测是否为移动端
+        function isMobile() {
+            return window.innerWidth <= 768;
+        }
+
+        // 控制底部播放栏的显示
+        function toggleBottomPlayer() {
+            const bottomPlayer = document.querySelector('.bottom-player');
+            if (isMobile()) {
+                if (!bottomPlayer) {
+                    // 如果是移动端但没有底部播放栏，则创建
+                    const playerHTML = `
+                        <div class="bottom-player">
+                            <div class="mini-info">
+                                <img class="mini-cover" src="" alt="当前播放">
+                                <div class="mini-text">
+                                    <div class="mini-title">未播放</div>
+                                    <div class="mini-artist">未知艺术家</div>
+                                </div>
+                            </div>
+                            <div class="mini-controls">
+                                <button class="control-btn play-btn mobile-play"><i class="fas fa-play"></i></button>
+                                <button class="control-btn mobile-next"><i class="fas fa-forward"></i></button>
+                            </div>
+                        </div>
+                    `;
+                    document.body.insertAdjacentHTML('beforeend', playerHTML);
+                }
+            } else {
+                // 如果是电脑端，移除底部播放栏
+                if (bottomPlayer) {
+                    bottomPlayer.remove();
+                }
+            }
+        }
+
+        // 页面加载时检查
+        document.addEventListener('DOMContentLoaded', toggleBottomPlayer);
+        
+        // 窗口大小改变时检查
+        window.addEventListener('resize', toggleBottomPlayer);
+
         // 修改后的音频初始化逻辑
         const backhost = 'http://127.0.0.1:3000/api';
         const audioPlayer = document.getElementById('audio-player');

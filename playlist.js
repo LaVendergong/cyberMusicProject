@@ -48,7 +48,7 @@ function updateSong(index) {
 
     
     let paused = audio.paused;
-    const back = 'http://127.0.0.1:3000/';
+    const back = 'http://192.168.214.174:3000/';
 
     const name = document.querySelector('.track-title');
     name.innerHTML = songlist[index].songName;
