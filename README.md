@@ -28,3 +28,5 @@ QQ: 2640833939
 
 2025/5/17 18:01 change the logical of the audio visuallser system to make it more cool
 ![image](https://github.com/user-attachments/assets/50296a06-482c-40f6-b08c-23f2b1f2f8fe)
+
+2025/5/18 0:07 add mobile styles but a little not perfect
