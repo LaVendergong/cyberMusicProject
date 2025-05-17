@@ -22,3 +22,6 @@ After that,you can see my project finally.
 ## Finally, I just want to practice my programing skills. If you are interested,you can connect with me.
 Telegram: t.me/LaVendergong
 QQ: 2640833939
+
+## Here are the logs
+2025/5/16 22:14 add Global Event Bus and likedList to operate songlist and likedlist in different .js file 
