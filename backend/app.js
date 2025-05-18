@@ -37,13 +37,14 @@ app.use(cors({
     'https://lavendergong.github.io/cyberMusicProject'
   ],
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE']
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH']
 }));
 
 // 静态文件服务
 app.use(express.static(path.join(__dirname, 'public'), {
   setHeaders: (res) => {
       res.set('Access-Control-Allow-Origin', '*');
+      res.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
       res.set('Access-Control-Allow-Credentials', 'true');
   }
 }));
@@ -67,5 +68,10 @@ app.use(function(err, req, res, next) {
   });
 });
 
-// Export the Express app
+// 设置端口
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
+
 module.exports = app;
