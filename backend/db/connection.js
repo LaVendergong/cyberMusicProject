@@ -4,18 +4,35 @@ const mongoose = require('mongoose');
 const mongooseOptions = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    serverSelectionTimeoutMS: 15000, // 超时时间设置为 15 秒
+    serverSelectionTimeoutMS: 30000, // 增加超时时间到 30 秒
     socketTimeoutMS: 45000, // Socket 超时设置为 45 秒
     family: 4, // 强制使用 IPv4
     maxPoolSize: 10, // 连接池大小
-    connectTimeoutMS: 15000, // 连接超时时间
+    connectTimeoutMS: 30000, // 增加连接超时时间到 30 秒
+    retryWrites: true,
+    w: 'majority'
+};
+
+// 检查数据库连接状态
+const checkConnection = () => {
+    return mongoose.connection.readyState === 1;
 };
 
 // 连接 MongoDB 数据库
 const connectDB = async (succeed, wrong) => {
     try {
+        // 检查是否已经连接
+        if (checkConnection()) {
+            console.log('MongoDB already connected');
+            if (succeed) succeed();
+            return;
+        }
+
         // 使用环境变量中的MongoDB连接字符串，如果没有则使用本地数据库
-        const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/music';
+        const uri = process.env.MONGODB_URI;
+        if (!uri) {
+            throw new Error('MongoDB URI is not defined in environment variables');
+        }
         
         // 连接数据库
         const conn = await mongoose.connect(uri, mongooseOptions);
@@ -27,10 +44,16 @@ const connectDB = async (succeed, wrong) => {
 
         mongoose.connection.on('error', (err) => {
             console.error('MongoDB connection error:', err);
+            if (wrong) wrong(err);
         });
 
         mongoose.connection.on('disconnected', () => {
             console.log('MongoDB disconnected');
+            // 尝试重新连接
+            if (process.env.NODE_ENV === 'production') {
+                console.log('Attempting to reconnect...');
+                setTimeout(() => connectDB(succeed, wrong), 5000);
+            }
         });
 
         // 优雅关闭连接
@@ -49,10 +72,8 @@ const connectDB = async (succeed, wrong) => {
         if (process.env.NODE_ENV === 'production') {
             console.log('Attempting to reconnect to MongoDB...');
             setTimeout(() => connectDB(succeed, wrong), 5000); // 5秒后重试
-        } else {
-            process.exit(1);
         }
     }
 };
 
-module.exports = connectDB;
+module.exports = { connectDB, checkConnection };

@@ -5,7 +5,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors');
-const connectDB = require('./db/connection');
+const { connectDB, checkConnection } = require('./db/connection');
 
 // 连接数据库
 connectDB(
@@ -49,6 +49,17 @@ app.use(express.static(path.join(__dirname, 'public'), {
   }
 }));
 
+// 添加数据库连接检查中间件
+app.use((req, res, next) => {
+  if (!checkConnection()) {
+    return res.status(500).json({
+      success: false,
+      message: 'Database connection is not established'
+    });
+  }
+  next();
+});
+
 // API 路由
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -63,6 +74,7 @@ app.use(function(req, res, next) {
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.json({
+    success: false,
     message: err.message,
     error: process.env.NODE_ENV === 'development' ? err : {}
   });
