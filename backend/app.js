@@ -5,6 +5,13 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors');
+const connectDB = require('./db/connection');
+
+// 连接数据库
+connectDB(
+  () => console.log('Database connected successfully'),
+  (err) => console.error('Database connection error:', err)
+);
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
