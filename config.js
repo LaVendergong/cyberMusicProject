@@ -1,7 +1,7 @@
 // 全局配置
 window.AppConfig = {
     // API基础地址
-    API_BASE_URL: 'http://localhost:3000',
+    API_BASE_URL: 'https://cyber-music-project.vercel.app/',
     
     // API端点
     ENDPOINTS: {
