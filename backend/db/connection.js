@@ -5,10 +5,10 @@ const connectDB = async (succeed, wrong) => {
     try {
         // 使用环境变量中的MongoDB连接字符串，如果没有则使用本地数据库
         const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/music';
-        await mongoose.connect(uri, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-        });
+        
+        // 移除废弃的选项
+        await mongoose.connect(uri);
+        
         console.log('MongoDB connected successfully');
         if (succeed) succeed();
     } catch (error) {
