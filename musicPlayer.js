@@ -43,19 +43,23 @@
         // 获取歌曲列表的方法
         async fetchSongList() {
             try {
-                const response = await fetch(window.AppConfig.getApiUrl(window.AppConfig.ENDPOINTS.SONGLIST));
+                const response = await fetch(window.AppConfig.getApiUrl(window.AppConfig.ENDPOINTS.SONGS));
                 if (!response.ok) {
                     throw new Error(`HTTP错误 状态码: ${response.status}`);
                 }
-                const songlist = await response.json();
-                this.songlist = songlist; // 保存到控制器中
-                MusicPlayer.songlist = songlist; // 保存到全局命名空间
+                const result = await response.json();
+                if (!result.success) {
+                    throw new Error(result.message || '获取歌曲列表失败');
+                }
+                
+                this.songlist = result.data; // 保存到控制器中
+                MusicPlayer.songlist = result.data; // 保存到全局命名空间
                 
                 // 触发歌曲列表更新事件
-                EventBus.emit('playlist-loaded', songlist);
+                EventBus.emit('playlist-loaded', result.data);
                 
-                console.log('歌曲列表加载成功:', songlist);
-                return songlist;
+                console.log('歌曲列表加载成功:', result.data);
+                return result.data;
             } catch (error) {
                 console.error('获取歌曲列表失败:', error);
                 EventBus.emit('playlist-error', error);

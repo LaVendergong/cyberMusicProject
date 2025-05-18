@@ -1,12 +1,14 @@
 // 全局配置
 window.AppConfig = {
     // API基础地址
-    API_BASE_URL: 'https://cyber-music-project.vercel.app/',
+    API_BASE_URL: 'https://cyber-music-project.vercel.app',
     
     // API端点
     ENDPOINTS: {
-        SONGLIST: '/api/songlist',
-        SONGS: '/api',
+        SONGLIST: '/api/songs',
+        SONG_SEARCH: '/api/songs/search',
+        SONG_BY_ID: '/api/songs',
+        SONGS: '/api/songs'
     },
 
     // 获取完整的API URL
