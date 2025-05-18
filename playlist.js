@@ -12,7 +12,6 @@ function updatePlayIcon() {
 function updatePlaylistUI(songlist) {
     if (!songlist || !Array.isArray(songlist)) return;
     
-    const back = 'http://127.0.0.1:3000/';
     list.innerHTML = ''; // 清空现有列表
     
     songlist.forEach((item, index) => {
@@ -21,7 +20,7 @@ function updatePlaylistUI(songlist) {
         <li data-song-id="${item._id}">
             <div class="song">
                 <div class="songimg">
-                    <img src=${back+item.imgPath} alt="">
+                    <img src=${window.AppConfig.getResourceUrl(item.imgPath)} alt="">
                 </div>
                 <div class="songname">
                     <span class="name">${item.songName}</span>
@@ -96,7 +95,6 @@ class AudioPreloader {
     constructor() {
         this.preloadCache = new Map(); // 用于存储预加载的音频
         this.maxCacheSize = 5; // 最大缓存数量
-        this.back = 'http://127.0.0.1:3000/';
     }
 
     // 预加载音频
@@ -105,7 +103,7 @@ class AudioPreloader {
 
         const audio = new Audio();
         audio.preload = 'auto';
-        audio.src = this.back + songPath;
+        audio.src = window.AppConfig.getResourceUrl(songPath);
         
         // 加载一定数据后停止
         audio.addEventListener('loadeddata', () => {
@@ -147,7 +145,6 @@ function updateSong(index) {
     addToPlayHistory(songlist[index]._id);
     
     let paused = audio.paused;
-    const back = 'http://127.0.0.1:3000/';
 
     const name = document.querySelector('.track-title');
     name.innerHTML = songlist[index].songName;
@@ -165,11 +162,11 @@ function updateSong(index) {
         audio.currentTime = 0;
     } else {
         // 如果没有预加载，正常加载
-        audio.src = back + songlist[index].songPath;
+        audio.src = window.AppConfig.getResourceUrl(songlist[index].songPath);
     }
 
     const picture = document.querySelector('.album-art img');
-    picture.src = back + songlist[index].imgPath;
+    picture.src = window.AppConfig.getResourceUrl(songlist[index].imgPath);
     const progressBar = document.querySelector('.progress');
     progressBar.style.width = '0%';
     
@@ -417,7 +414,6 @@ function renderPlayHistory() {
 
     const history = loadPlayHistory();
     const songlist = window.MusicPlayer.songlist;
-    const back = 'http://127.0.0.1:3000/';
 
     historyList.innerHTML = ''; // 清空现有列表
     
@@ -428,7 +424,7 @@ function renderPlayHistory() {
             <li data-song-id="${song._id}">
                 <div class="song">
                     <div class="songimg">
-                        <img src="${back + song.imgPath}" alt="">
+                        <img src="${window.AppConfig.getResourceUrl(song.imgPath)}" alt="">
                     </div>
                     <div class="songname">
                         <span class="name">${song.songName}</span>

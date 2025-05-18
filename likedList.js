@@ -74,7 +74,6 @@ function renderLikedSongs() {
     const likedList = document.querySelector('.songlist ul:nth-child(2)');
     const likedSongs = loadLikedSongs();
     const songlist = window.MusicPlayer.songlist;
-    const back = 'http://127.0.0.1:3000/';
 
     if (!songlist || !likedList) {
         console.log('等待数据加载...');
@@ -89,7 +88,7 @@ function renderLikedSongs() {
             <li data-song-id="${song._id}">
                 <div class="song">
                     <div class="songimg">
-                        <img src="${back + song.imgPath}" alt="${song.songName}">
+                        <img src="${window.AppConfig.getResourceUrl(song.imgPath)}" alt="${song.songName}">
                     </div>
                     <div class="songname">
                         <span class="name">${song.songName}</span>

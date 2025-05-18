@@ -137,10 +137,16 @@ function drawSpectrum() {
     analyser.getByteFrequencyData(dataArray);
     spectrumCtx.clearRect(0, 0, spectrumCanvas.width, spectrumCanvas.height);
 
-    // 绘制背景
+    // 获取当前主题颜色
+    const computedStyle = getComputedStyle(document.documentElement);
+    const primaryColor = computedStyle.getPropertyValue('--primary-color').trim();
+    const secondaryColor = computedStyle.getPropertyValue('--secondary-color').trim();
+    const backgroundColor = computedStyle.getPropertyValue('--background-color').trim();
+
+    // 使用主题颜色创建渐变
     const gradient = spectrumCtx.createLinearGradient(0, 0, 0, spectrumCanvas.height);
-    gradient.addColorStop(0, 'rgba(0, 20, 40, 0.95)');
-    gradient.addColorStop(1, 'rgba(0, 10, 20, 0.95)');
+    gradient.addColorStop(0, `${secondaryColor}95`); // 95表示透明度0.95
+    gradient.addColorStop(1, `${backgroundColor}95`);
     spectrumCtx.fillStyle = gradient;
     spectrumCtx.fillRect(0, 0, spectrumCanvas.width, spectrumCanvas.height);
 
@@ -162,7 +168,10 @@ function drawSpectrum() {
 // 绘制动态网格
 function drawGrid() {
     const time = Date.now() * 0.001;
-    spectrumCtx.strokeStyle = 'rgba(0, 240, 255, 0.1)';
+    const computedStyle = getComputedStyle(document.documentElement);
+    const primaryColor = computedStyle.getPropertyValue('--primary-color').trim();
+    
+    spectrumCtx.strokeStyle = `${primaryColor}20`; // 20表示透明度0.12
     spectrumCtx.lineWidth = 1;
 
     // 水平线
@@ -283,13 +292,17 @@ for (let i = 0; i < PARTICLE_COUNT; i++) {
         size: Math.random() * 2 + 1,  // 稍微减小粒子大小
         speedX: (Math.random() - 0.5) * 3,  // 增加水平速度
         speedY: (Math.random() - 0.5) * 3,  // 增加垂直速度
-        hue: Math.random() * 60 + 180,
         bounceDecay: 0.8  // 添加反弹衰减系数
     });
 }
 
 // 修改粒子绘制和更新函数
 function drawParticles() {
+    const computedStyle = getComputedStyle(document.documentElement);
+    const primaryColor = computedStyle.getPropertyValue('--primary-color').trim();
+    const secondaryColor = computedStyle.getPropertyValue('--secondary-color').trim();
+    const accentColor = computedStyle.getPropertyValue('--accent-color').trim();
+    
     const barWidth = spectrumCanvas.width / 200;  // 与drawBars中的barCount保持一致
 
     spectrumParticles.forEach(particle => {
@@ -298,6 +311,9 @@ function drawParticles() {
         const value = dataArray[Math.min(barIndex * Math.floor(dataArray.length / 200), dataArray.length - 1)] || 0;
         const normalizedValue = Math.pow(value / 255, 1.2);
         const barHeight = normalizedValue * spectrumCanvas.height * 0.75;
+        
+        // 计算频率值
+        const frequency = value / 255;
         
         // 更新位置
         particle.x += particle.speedX;
@@ -315,29 +331,25 @@ function drawParticles() {
             particle.y = 0;
         }
         
-        // 与频谱柱体的碰撞检测 - 修改这部分
+        // 与频谱柱体的碰撞检测
         const bottomLimit = spectrumCanvas.height - barHeight;
         if (particle.y >= bottomLimit) {
-            // 当粒子触碰到柱体或底部时
             if (barHeight > 0) {  // 如果有音频信号
-                // 根据音频强度决定反弹力度
                 const bounceForce = Math.max(0.5, normalizedValue * 2);
                 particle.speedY = -Math.abs(particle.speedY) * particle.bounceDecay * bounceForce;
                 particle.y = bottomLimit;
-                // 添加水平速度变化
                 particle.speedX += (Math.random() - 0.5) * normalizedValue * 2;
             } else if (particle.y >= spectrumCanvas.height) {
-                // 如果没有音频信号且触底
                 particle.y = spectrumCanvas.height;
                 particle.speedY *= -particle.bounceDecay;
             }
         }
         
         // 添加重力效果
-        particle.speedY += 0.01;  // 略微增加重力
+        particle.speedY += 0.01;
         
         // 限制最大速度
-        const maxSpeed = 8;  // 增加最大速度限制
+        const maxSpeed = 8;
         const currentSpeed = Math.sqrt(particle.speedX * particle.speedX + particle.speedY * particle.speedY);
         if (currentSpeed > maxSpeed) {
             const scale = maxSpeed / currentSpeed;
@@ -345,8 +357,7 @@ function drawParticles() {
             particle.speedY *= scale;
         }
         
-        // 绘制粒子部分保持不变
-        const frequency = value / 255;
+        // 使用主题颜色绘制粒子
         spectrumCtx.beginPath();
         spectrumCtx.arc(
             particle.x,
@@ -356,15 +367,51 @@ function drawParticles() {
             Math.PI * 2
         );
         
+        // 根据粒子速度和音频强度混合主题颜色
         const speed = Math.sqrt(particle.speedX * particle.speedX + particle.speedY * particle.speedY);
-        const dynamicHue = (particle.hue + speed * 5) % 360;
-        spectrumCtx.fillStyle = `hsla(${dynamicHue}, 100%, 70%, ${0.3 + frequency * 0.5})`;
+        const colorMix = speed / maxSpeed; // 0-1之间的值
+        const audioIntensity = frequency * 0.7 + 0.3; // 确保至少有0.3的基础亮度
+
+        // 在主色调和强调色之间进行插值
+        let particleColor;
+        if (colorMix < 0.5) {
+            // 在primaryColor和secondaryColor之间插值
+            particleColor = interpolateColors(primaryColor, secondaryColor, colorMix * 2);
+        } else {
+            // 在secondaryColor和accentColor之间插值
+            particleColor = interpolateColors(secondaryColor, accentColor, (colorMix - 0.5) * 2);
+        }
+
+        spectrumCtx.fillStyle = `${particleColor}${Math.floor((0.3 + frequency * 0.5) * 255).toString(16).padStart(2, '0')}`;
         spectrumCtx.fill();
     });
 }
 
+// 添加颜色插值辅助函数
+function interpolateColors(color1, color2, factor) {
+    // 解析颜色
+    const r1 = parseInt(color1.slice(1, 3), 16);
+    const g1 = parseInt(color1.slice(3, 5), 16);
+    const b1 = parseInt(color1.slice(5, 7), 16);
+    
+    const r2 = parseInt(color2.slice(1, 3), 16);
+    const g2 = parseInt(color2.slice(3, 5), 16);
+    const b2 = parseInt(color2.slice(5, 7), 16);
+    
+    // 线性插值
+    const r = Math.round(r1 + (r2 - r1) * factor);
+    const g = Math.round(g1 + (g2 - g1) * factor);
+    const b = Math.round(b1 + (b2 - b1) * factor);
+    
+    // 转换回十六进制
+    return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+}
+
 // 绘制扫描线效果
 function drawScanlines() {
+    const computedStyle = getComputedStyle(document.documentElement);
+    const primaryColor = computedStyle.getPropertyValue('--primary-color').trim();
+    
     const scanLineCount = 50;
     const scanLineHeight = spectrumCanvas.height / scanLineCount;
     
@@ -372,7 +419,7 @@ function drawScanlines() {
         const y = i * scanLineHeight;
         const alpha = 0.03 + Math.sin(Date.now() * 0.001 + i * 0.1) * 0.02;
         
-        spectrumCtx.fillStyle = `rgba(0, 240, 255, ${alpha})`;
+        spectrumCtx.fillStyle = `${primaryColor}${Math.floor(alpha * 255).toString(16).padStart(2, '0')}`;
         spectrumCtx.fillRect(0, y, spectrumCanvas.width, 1);
     }
 }

@@ -23,14 +23,22 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(cors({
-  origin: 'http://127.0.0.1:5501', // 允许任意源访问
+  origin: ['*',
+    'http://127.0.0.1:5501',
+    'http://localhost:5501',
+    'http://192.168.214.174:5501',
+    'http://192.168.214.174:3000',
+    'http://127.0.0.1:3000',
+    'http://localhost:3000',
+
+  ], // 指定前端域名
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE']
 }));
 // 确保静态文件服务也启用CORS
 app.use(express.static(path.join(__dirname, 'public'), {
   setHeaders: (res) => {
-      res.set('Access-Control-Allow-Origin', 'http://127.0.0.1:5501');
+      res.set('Access-Control-Allow-Origin', '*');
       res.set('Access-Control-Allow-Credentials', 'true');
   }
 }));

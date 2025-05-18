@@ -34,6 +34,193 @@ class ThemeManager {
                     surface: '#1F0042',
                     text: '#FFE1FF'
                 }
+            },
+            nature: {
+                name: '自然森林',
+                colors: {
+                    primary: '#4CAF50',
+                    secondary: '#8BC34A',
+                    accent: '#FFC107',
+                    background: '#1B2F1B',
+                    surface: '#2A442A',
+                    text: '#E8F5E9'
+                }
+            },
+            ocean: {
+                name: '深海之境',
+                colors: {
+                    primary: '#03A9F4',
+                    secondary: '#00BCD4',
+                    accent: '#009688',
+                    background: '#002633',
+                    surface: '#003847',
+                    text: '#E1F5FE'
+                }
+            },
+            sunset: {
+                name: '日落黄昏',
+                colors: {
+                    primary: '#FF9800',
+                    secondary: '#FF5722',
+                    accent: '#F44336',
+                    background: '#2C1810',
+                    surface: '#3E2723',
+                    text: '#FFECB3'
+                }
+            },
+            minimalist: {
+                name: '简约白',
+                colors: {
+                    primary: '#212121',
+                    secondary: '#757575',
+                    accent: '#2196F3',
+                    background: '#FFFFFF',
+                    surface: '#F5F5F5',
+                    text: '#212121'
+                }
+            },
+            galaxy: {
+                name: '星空银河',
+                colors: {
+                    primary: '#7B1FA2',
+                    secondary: '#E040FB',
+                    accent: '#00BCD4',
+                    background: '#0D0221',
+                    surface: '#1A033E',
+                    text: '#E1BEE7'
+                }
+            },
+            desert: {
+                name: '沙漠黄昏',
+                colors: {
+                    primary: '#FFA000',
+                    secondary: '#FF6D00',
+                    accent: '#FFD740',
+                    background: '#3E2723',
+                    surface: '#4E342E',
+                    text: '#FFF8E1'
+                }
+            },
+            arctic: {
+                name: '北极极光',
+                colors: {
+                    primary: '#26C6DA',
+                    secondary: '#00BFA5',
+                    accent: '#64FFDA',
+                    background: '#102027',
+                    surface: '#37474F',
+                    text: '#E0F7FA'
+                }
+            },
+            sakura: {
+                name: '樱花季',
+                colors: {
+                    primary: '#FF80AB',
+                    secondary: '#FF4081',
+                    accent: '#F50057',
+                    background: '#FCE4EC',
+                    surface: '#F8BBD0',
+                    text: '#880E4F'
+                }
+            },
+            steampunk: {
+                name: '蒸汽朋克',
+                colors: {
+                    primary: '#795548',
+                    secondary: '#D7CCC8',
+                    accent: '#FFC107',
+                    background: '#3E2723',
+                    surface: '#4E342E',
+                    text: '#D7CCC8'
+                }
+            },
+            matrix: {
+                name: '矩阵代码',
+                colors: {
+                    primary: '#00FF00',
+                    secondary: '#008F00',
+                    accent: '#00FF00',
+                    background: '#000000',
+                    surface: '#001F00',
+                    text: '#00FF00'
+                }
+            },
+            vampire: {
+                name: '血色黑夜',
+                colors: {
+                    primary: '#D32F2F',
+                    secondary: '#B71C1C',
+                    accent: '#FF5252',
+                    background: '#1A0000',
+                    surface: '#260000',
+                    text: '#FFEBEE'
+                }
+            },
+            emerald: {
+                name: '翡翠森林',
+                colors: {
+                    primary: '#2E7D32',
+                    secondary: '#1B5E20',
+                    accent: '#00C853',
+                    background: '#E8F5E9',
+                    surface: '#C8E6C9',
+                    text: '#1B5E20'
+                }
+            },
+            lavender: {
+                name: '薰衣草',
+                colors: {
+                    primary: '#9575CD',
+                    secondary: '#7E57C2',
+                    accent: '#B39DDB',
+                    background: '#EDE7F6',
+                    surface: '#D1C4E9',
+                    text: '#311B92'
+                }
+            },
+            coral: {
+                name: '珊瑚礁',
+                colors: {
+                    primary: '#FF7043',
+                    secondary: '#FF5722',
+                    accent: '#FF9E80',
+                    background: '#FBE9E7',
+                    surface: '#FFCCBC',
+                    text: '#BF360C'
+                }
+            },
+            midnight: {
+                name: '午夜蓝',
+                colors: {
+                    primary: '#1A237E',
+                    secondary: '#283593',
+                    accent: '#3949AB',
+                    background: '#E8EAF6',
+                    surface: '#C5CAE9',
+                    text: '#1A237E'
+                }
+            },
+            autumn: {
+                name: '秋日暖阳',
+                colors: {
+                    primary: '#F57C00',
+                    secondary: '#EF6C00',
+                    accent: '#FFB74D',
+                    background: '#FFF3E0',
+                    surface: '#FFE0B2',
+                    text: '#E65100'
+                }
+            },
+            neonPink: {
+                name: '霓虹粉',
+                colors: {
+                    primary: '#FF1493',
+                    secondary: '#FF69B4',
+                    accent: '#FFB6C1',
+                    background: '#1A0011',
+                    surface: '#2D001C',
+                    text: '#FFC0CB'
+                }
             }
         };
         

@@ -101,11 +101,11 @@
 
 @keyframes energy-pulse {
     0%, 100% { 
-        box-shadow: 0 0 5px var(--neon-blue);
+        box-shadow: 0 0 5px var(--primary-color);
     }
     50% { 
-        box-shadow: 0 0 30px var(--neon-pink);
-        filter: hue-rotate(30deg);
+        box-shadow: 0 0 30px var(--secondary-color);
+        filter: brightness(1.2);
     }
 }
 
@@ -434,7 +434,7 @@ main {
     display: flex;
     justify-content: space-between;
     font-size: 0.9rem;
-    color: var(--neon-blue);
+    color: var(--secondary-color);
 }
 
 /* 控制按钮 */
@@ -459,6 +459,21 @@ main {
     align-items: center;
     justify-content: center;
     border-radius: 50%;
+    position: relative;
+}
+
+.control-btn::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: 50%;
+    background: transparent;
+    border: 2px solid var(--primary-color);
+    opacity: 0.5;
+    animation: energy-pulse 3s infinite;
 }
 
 .control-btn:hover {
@@ -466,6 +481,11 @@ main {
     text-shadow: 0 0 10px var(--secondary-color);
     background: rgba(var(--secondary-color), 0.1);
     transform: scale(1.1);
+}
+
+.control-btn:hover::after {
+    border-color: var(--secondary-color);
+    animation: energy-pulse 1.5s infinite;
 }
 
 .play-btn {
@@ -476,9 +496,19 @@ main {
     height: 60px;
 }
 
+.play-btn::after {
+    animation: energy-pulse 2s infinite;
+}
+
 .play-btn:hover {
     background: rgba(var(--secondary-color), 0.2);
     border-color: var(--secondary-color);
+}
+
+.play-btn:hover::after {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 20px var(--accent-color);
+    animation: energy-pulse 1s infinite;
 }
 
 /* 音量控制 */

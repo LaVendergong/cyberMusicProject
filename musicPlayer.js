@@ -43,7 +43,7 @@
         // 获取歌曲列表的方法
         async fetchSongList() {
             try {
-                const response = await fetch('http://127.0.0.1:3000/api/songlist');
+                const response = await fetch(window.AppConfig.getApiUrl(window.AppConfig.ENDPOINTS.SONGLIST));
                 if (!response.ok) {
                     throw new Error(`HTTP错误 状态码: ${response.status}`);
                 }
