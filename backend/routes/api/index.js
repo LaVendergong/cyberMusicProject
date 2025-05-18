@@ -1,28 +1,17 @@
-const express = require('express')
+const express = require('express');
 const cors = require('cors');
-const connection = require('../../db/connection')
-const songModel = require('../../db/songSchema')
+const connection = require('../../db/connection');
+const songModel = require('../../db/songSchema');
+const songController = require('../../controllers/songController');
 
-const router = express.Router()
-connection(()=>{
-    songModel.find({}).then((data,err)=>{
-        if(err){
-            console.log(err)
-        }else{
-            console.log(data)
-            router.get('/songlist', (req, res) => {
-                res.json(data)
-            })
-        }
-    })
-    
+const router = express.Router();
 
+// 歌曲相关路由
+router.get('/songs', songController.getAllSongs);
+router.get('/songs/search', songController.searchSongs);
+router.get('/songs/:id', songController.getSongById);
+router.post('/songs', songController.createSong);
+router.put('/songs/:id', songController.updateSong);
+router.delete('/songs/:id', songController.deleteSong);
 
-
-},(err)=>{console.log(err)})
-router.get('/', (req, res) => {
-    res.json({url: 'http://127.0.0.1:3000/localmusics/1141641196.mp3'})
-})
-
-
-module.exports = router
+module.exports = router;
