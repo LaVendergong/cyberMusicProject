@@ -30,6 +30,7 @@ app.use(cors({
     'http://192.168.214.174:3000',
     'http://127.0.0.1:3000',
     'http://localhost:3000',
+    'https://lavendergong.github.io/cyberMusicProject'
 
   ], // 指定前端域名
   credentials: true,
