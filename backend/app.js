@@ -12,10 +12,13 @@ const apiRouter = require('./routes/api')
 
 var app = express();
 
+// 基本中间件
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+// CORS 配置
 app.use(cors({
   origin: ['*',
     'http://127.0.0.1:5501',
@@ -30,6 +33,7 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE']
 }));
 
+// 静态文件服务
 app.use(express.static(path.join(__dirname, 'public'), {
   setHeaders: (res) => {
       res.set('Access-Control-Allow-Origin', '*');
@@ -37,16 +41,17 @@ app.use(express.static(path.join(__dirname, 'public'), {
   }
 }));
 
+// API 路由
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api', apiRouter);
 
-// catch 404 and forward to error handler
+// 404 处理
 app.use(function(req, res, next) {
   next(createError(404));
 });
 
-// error handler
+// 错误处理
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.json({
