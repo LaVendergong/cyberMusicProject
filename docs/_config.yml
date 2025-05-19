@@ -1,0 +1,23 @@
+theme: jekyll-theme-minimal
+title: CYBERBEAT Music Player
+description: A modern music player with waveform visualization
+baseurl: "/cyberMusicProject"
+url: "https://lavendergongs.github.io"
+
+# 构建设置
+markdown: kramdown
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# 排除文件
+exclude:
+  - node_modules
+  - backend2
+  - .git
+  - .vscode
+  - package.json
+  - package-lock.json
+  - vercel.json
+  - vercel-build.sh 
