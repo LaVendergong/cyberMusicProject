@@ -178,7 +178,7 @@
         window.addEventListener('resize', toggleBottomPlayer);
 
         // 修改后的音频初始化逻辑
-        const backhost = window.AppConfig.getApiUrl('');
+        const backhost = window.AppConfig.getApiUrl('api/songs');
         const audioPlayer = document.getElementById('audio-player');
         
         // 使用Fetch API替代XMLHttpRequest
@@ -193,16 +193,24 @@
             mode: 'cors'
         })
             .then(response => {
-                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 return response.json();
             })
             .then(data => {
-                audioPlayer.src = data.url;
-                audioPlayer.load();
+                if (data.success && data.data && data.data.length > 0) {
+                    const firstSong = data.data[0];
+                    audioPlayer.src = window.AppConfig.getResourceUrl(firstSong.songPath);
+                    audioPlayer.load();
+                } else {
+                    throw new Error('没有可用的歌曲');
+                }
             })
             .catch(error => {
                 console.error('请求失败:', error);
-                audioPlayer.src = '/fallback.mp3';
+                // 使用默认音频
+                audioPlayer.src = 'assets/audio/fallback.mp3';
             });
     
         // 添加错误监听
