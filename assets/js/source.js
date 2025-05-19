@@ -31,7 +31,43 @@ const MUSIC_SOURCE = Object.keys(MUSIC_QUALITY)
 /**
  * 下面的东西就不要修改了
  */
-const { EVENT_NAMES, request, on, send, utils, env, version } = globalThis.lx
+if (!globalThis.lx) {
+    globalThis.lx = {
+        on: function(event, callback) {
+            if (!this._events) this._events = {};
+            if (!this._events[event]) this._events[event] = [];
+            this._events[event].push(callback);
+        },
+        send: function(event, data) {
+            if (!this._events || !this._events[event]) return;
+            this._events[event].forEach(callback => callback(data));
+        },
+        request: function(url, options, callback) {
+            fetch(url, options)
+                .then(response => response.json())
+                .then(data => callback(null, data))
+                .catch(err => callback(err));
+        }
+    };
+}
+
+// 定义事件名称
+const EVENT_NAMES = {
+    SONG_LOADED: 'song-loaded',
+    SONG_PLAY: 'song-play',
+    SONG_PAUSE: 'song-pause',
+    SONG_END: 'song-end',
+    SONG_ERROR: 'song-error',
+    PLAYLIST_CHANGED: 'playlist-changed',
+    PLAY_MODE_CHANGED: 'play-mode-changed',
+    REQUEST: 'request',
+    INITED: 'inited'
+};
+
+// 将事件名称添加到 globalThis.lx
+globalThis.lx.EVENT_NAMES = EVENT_NAMES;
+
+const { request, on, send, utils, env, version } = globalThis.lx;
 
 const httpFetch = (url, options = { method: 'GET' }) => {
   return new Promise((resolve, reject) => {

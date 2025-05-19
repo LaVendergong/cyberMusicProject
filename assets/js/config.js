@@ -1,17 +1,17 @@
 // 环境配置
 const ENV = {
     development: {
-        API_URL: 'http://localhost:3000',
-        SOURCE_API_URL: 'http://localhost:3000'
+        API_URL: 'http://127.0.0.1:3000',
+        SOURCE_API_URL: 'http://127.0.0.1:3000'
     },
     production: {
-        API_URL: 'https://cyber-music-project.vercel.app',
-        SOURCE_API_URL: 'https://cyber-music-project.vercel.app'
+        API_URL: 'https://cyber-music-project-icrxwgwfc-lavendergongs-projects.vercel.app',
+        SOURCE_API_URL: 'https://cyber-music-project-icrxwgwfc-lavendergongs-projects.vercel.app'
     }
 };
 
-// 确定当前环境
-const currentEnv = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'development' : 'production';
+// 确定当前环境 - 优先使用开发环境
+const currentEnv = 'development';
 
 // 确保 window.AppConfig 存在
 window.AppConfig = window.AppConfig || {};
@@ -39,9 +39,9 @@ Object.assign(window.AppConfig, {
         return `${baseUrl}${path}`;
     },
     isDevelopment: function() {
-        return currentEnv === 'development';
+        return true; // 始终返回 true，强制使用开发环境
     },
     getEnvironment: function() {
-        return currentEnv;
+        return 'development'; // 始终返回 development
     }
 }); 

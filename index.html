@@ -86,7 +86,7 @@
                 </ul>
             </div>
             <!-- 音频元素 -->
-            <audio id="audio-player" src="" crossOrigin="anonymous"></audio> <!-- 增加跨域属性 -->
+            <audio id="audio-player" src="" crossOrigin="anonymous"></audio>
         </div>
     </main>
 
@@ -159,8 +159,11 @@
         fetch(window.AppConfig.getApiUrl(window.AppConfig.ENDPOINTS.SONGS), {
             method: 'GET',
             headers: {
-                'Accept': 'application/json'
-            }
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            mode: 'cors',
+            credentials: 'omit'
         })
             .then(response => {
                 if (!response.ok) {
@@ -180,7 +183,7 @@
             .catch(error => {
                 console.error('请求失败:', error);
                 // 使用默认音频
-                audioPlayer.src = 'assets/audio/fallback.mp3';
+                audioPlayer.src = '1141641196.mp3';
             });
     
         // 添加错误监听
