@@ -48,10 +48,10 @@
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
-                        'Origin': window.location.origin,
-                        'X-Requested-With': 'XMLHttpRequest'
+                        'Origin': window.location.origin
                     },
                     mode: 'cors',
+                    credentials: 'include',
                     cache: 'no-store'
                 });
 
