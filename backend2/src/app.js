@@ -26,11 +26,10 @@ connectDB();
 // CORS 配置
 const corsOptions = {
     origin: function(origin, callback) {
-        const allowedOrigins = [
-            'https://lavendergong.github.io',
-            'http://localhost:3000',
-            'http://127.0.0.1:3000'
-        ];
+        const allowedOrigins = process.env.ALLOWED_ORIGINS ? 
+            process.env.ALLOWED_ORIGINS.split(',') : 
+            ['https://lavendergong.github.io', 'http://localhost:3000', 'http://127.0.0.1:3000'];
+            
         if (!origin || allowedOrigins.indexOf(origin) !== -1) {
             callback(null, true);
         } else {
@@ -52,7 +51,11 @@ app.use(cors(corsOptions));
 // 添加安全头
 app.use((req, res, next) => {
     const origin = req.headers.origin;
-    if (corsOptions.origin[0].includes(origin)) {
+    const allowedOrigins = process.env.ALLOWED_ORIGINS ? 
+        process.env.ALLOWED_ORIGINS.split(',') : 
+        ['https://lavendergong.github.io', 'http://localhost:3000', 'http://127.0.0.1:3000'];
+        
+    if (allowedOrigins.includes(origin)) {
         res.setHeader('Access-Control-Allow-Origin', origin);
     }
     res.setHeader('Access-Control-Allow-Methods', corsOptions.methods.join(', '));
@@ -60,6 +63,11 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     res.setHeader('Access-Control-Expose-Headers', corsOptions.exposedHeaders.join(', '));
     res.setHeader('Access-Control-Max-Age', corsOptions.maxAge);
+    
+    // 设置缓存控制
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
     
     // 处理预检请求
     if (req.method === 'OPTIONS') {
