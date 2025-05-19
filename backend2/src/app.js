@@ -25,32 +25,46 @@ connectDB();
 
 // CORS 配置
 const corsOptions = {
-    origin: [
-        'https://lavendergong.github.io',
-        'http://localhost:3000',
-        'http://127.0.0.1:3000'
-    ],
+    origin: function(origin, callback) {
+        const allowedOrigins = [
+            'https://lavendergong.github.io',
+            'http://localhost:3000',
+            'http://127.0.0.1:3000'
+        ];
+        if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error('不允许的源'));
+        }
+    },
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'Range', 'Accept', 'Origin'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Range', 'Accept', 'Origin', 'X-Requested-With'],
     exposedHeaders: ['Content-Range', 'X-Content-Range'],
     credentials: true,
-    maxAge: 86400, // 预检请求结果缓存24小时
+    maxAge: 86400,
     preflightContinue: false,
     optionsSuccessStatus: 204
 };
 
+// 应用 CORS 中间件
 app.use(cors(corsOptions));
 
 // 添加安全头
 app.use((req, res, next) => {
     const origin = req.headers.origin;
-    if (corsOptions.origin.includes(origin)) {
+    if (corsOptions.origin[0].includes(origin)) {
         res.setHeader('Access-Control-Allow-Origin', origin);
     }
     res.setHeader('Access-Control-Allow-Methods', corsOptions.methods.join(', '));
     res.setHeader('Access-Control-Allow-Headers', corsOptions.allowedHeaders.join(', '));
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     res.setHeader('Access-Control-Expose-Headers', corsOptions.exposedHeaders.join(', '));
+    res.setHeader('Access-Control-Max-Age', corsOptions.maxAge);
+    
+    // 处理预检请求
+    if (req.method === 'OPTIONS') {
+        return res.status(204).end();
+    }
     next();
 });
 
@@ -158,7 +172,15 @@ app.use((req, res) => {
 });
 
 // 错误处理中间件
-app.use(errorHandler);
+app.use((err, req, res, next) => {
+    if (err.name === 'CORSError') {
+        return res.status(403).json({
+            success: false,
+            message: 'CORS 错误：' + err.message
+        });
+    }
+    next(err);
+});
 
 // 启动服务器
 const PORT = process.env.PORT || 3000;
