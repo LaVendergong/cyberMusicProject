@@ -5,8 +5,8 @@ const ENV = {
         SOURCE_API_URL: 'http://localhost:3000'
     },
     production: {
-        API_URL: 'https://cyber-music-project-icrxwgwfc-lavendergongs-projects.vercel.app',
-        SOURCE_API_URL: 'https://cyber-music-project-icrxwgwfc-lavendergongs-projects.vercel.app'
+        API_URL: 'https://cyber-music-project.vercel.app',
+        SOURCE_API_URL: 'https://cyber-music-project.vercel.app'
     }
 };
 
