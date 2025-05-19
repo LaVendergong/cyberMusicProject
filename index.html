@@ -184,25 +184,26 @@
         
         // 使用Fetch API替代XMLHttpRequest
         fetch(backhost, {
-            credentials: 'include', // 允许携带cookie
+            method: 'GET',
+            credentials: 'include',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
+                'Content-Type': 'application/json',
+                'Origin': window.location.origin
+            },
+            mode: 'cors'
         })
             .then(response => {
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                return response.json(); // 假设后端返回JSON格式 { url: 'audio-file.mp3' }
+                return response.json();
             })
             .then(data => {
                 audioPlayer.src = data.url;
-                audioPlayer.load(); // 必须调用load()方法
-                
+                audioPlayer.load();
             })
             .catch(error => {
                 console.error('请求失败:', error);
-                // 可以在这里设置默认音频源
-                audioPlayer.src = '/fallback.mp3'; 
+                audioPlayer.src = '/fallback.mp3';
             });
     
         // 添加错误监听
