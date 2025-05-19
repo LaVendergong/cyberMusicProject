@@ -47,12 +47,8 @@
                 const response = await fetch(window.AppConfig.getApiUrl(window.AppConfig.ENDPOINTS.SONGS), {
                     method: 'GET',
                     headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    mode: 'cors',
-                    credentials: 'omit',
-                    cache: 'no-store'
+                        'Accept': 'application/json'
+                    }
                 });
 
                 if (!response.ok) {

@@ -18,17 +18,9 @@ const healthRoutes = require('./routes/healthRoutes');
 
 const app = express();
 
-// CORS 配置
+// 简化的 CORS 配置
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Range, Accept');
-    res.setHeader('Access-Control-Expose-Headers', 'Content-Range, X-Content-Range');
-    
-    // 处理预检请求
-    if (req.method === 'OPTIONS') {
-        return res.status(204).end();
-    }
     next();
 });
 
@@ -58,23 +50,13 @@ const staticOptions = {
         } else if (path.endsWith('.flac')) {
             res.set('Content-Type', 'audio/flac');
         }
-        
-        // 支持音频流式传输
-        res.set('Accept-Ranges', 'bytes');
     }
 };
 
 // 静态文件服务
 app.use('/uploads', express.static(path.join(__dirname, '../uploads'), staticOptions));
 app.use('/public', express.static(path.join(__dirname, '../public'), staticOptions));
-app.use('/localmusics', express.static(path.join(__dirname, '../public/localmusics'), {
-    ...staticOptions,
-    setHeaders: (res, path, stat) => {
-        staticOptions.setHeaders(res, path, stat);
-        res.set('Cache-Control', 'public, max-age=3600');
-        res.set('Accept-Ranges', 'bytes');
-    }
-}));
+app.use('/localmusics', express.static(path.join(__dirname, '../public/localmusics'), staticOptions));
 app.use('/images', express.static(path.join(__dirname, '../public/images'), staticOptions));
 
 // 添加对音频范围请求的支持
