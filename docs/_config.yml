@@ -11,6 +11,13 @@ plugins:
   - jekyll-seo-tag
   - jekyll-sitemap
 
+# 默认布局
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: "default"
+
 # 排除文件
 exclude:
   - node_modules
@@ -20,4 +27,20 @@ exclude:
   - package.json
   - package-lock.json
   - vercel.json
-  - vercel-build.sh 
+  - vercel-build.sh
+  - .github
+  - src
+  - docs/assets
+
+# 包含文件
+include:
+  - assets
+  - index.html
+  - favicon.ico
+
+# 构建设置
+sass:
+  style: compressed
+  load_paths:
+    - _sass
+    - node_modules 

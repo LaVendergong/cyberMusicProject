@@ -23,10 +23,44 @@ jobs:
 
       - name: Build
         run: |
-          # 复制必要的文件到 docs 目录
-          cp -r index.html style.css mobile.css config.js my.js musicPlayer.js likedList.js playlist.js share.js theme.js docs/
-          cp -r public docs/
-          cp -r uploads docs/
+          # 创建必要的目录
+          mkdir -p docs/assets/css
+          mkdir -p docs/assets/js
+          mkdir -p docs/assets/images
+          
+          # 复制 HTML 文件
+          cp index.html docs/
+          
+          # 复制 CSS 文件
+          cp style.css docs/assets/css/
+          cp mobile.css docs/assets/css/
+          
+          # 复制 JavaScript 文件
+          cp config.js docs/assets/js/
+          cp my.js docs/assets/js/
+          cp musicPlayer.js docs/assets/js/
+          cp likedList.js docs/assets/js/
+          cp playlist.js docs/assets/js/
+          cp share.js docs/assets/js/
+          cp theme.js docs/assets/js/
+          cp source.js docs/assets/js/
+          cp analyzer.js docs/assets/js/
+          
+          # 复制其他资源文件
+          cp favicon.ico docs/assets/images/
+          
+          # 更新 HTML 文件中的资源路径
+          sed -i 's/href="style.css"/href="assets\/css\/style.css"/g' docs/index.html
+          sed -i 's/href="mobile.css"/href="assets\/css\/mobile.css"/g' docs/index.html
+          sed -i 's/src="config.js"/src="assets\/js\/config.js"/g' docs/index.html
+          sed -i 's/src="my.js"/src="assets\/js\/my.js"/g' docs/index.html
+          sed -i 's/src="musicPlayer.js"/src="assets\/js\/musicPlayer.js"/g' docs/index.html
+          sed -i 's/src="likedList.js"/src="assets\/js\/likedList.js"/g' docs/index.html
+          sed -i 's/src="playlist.js"/src="assets\/js\/playlist.js"/g' docs/index.html
+          sed -i 's/src="share.js"/src="assets\/js\/share.js"/g' docs/index.html
+          sed -i 's/src="theme.js"/src="assets\/js\/theme.js"/g' docs/index.html
+          sed -i 's/src="source.js"/src="assets\/js\/source.js"/g' docs/index.html
+          sed -i 's/src="analyzer.js"/src="assets\/js\/analyzer.js"/g' docs/index.html
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
