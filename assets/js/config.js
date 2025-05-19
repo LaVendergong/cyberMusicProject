@@ -13,8 +13,11 @@ const ENV = {
 // 获取当前环境
 const currentEnv = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'development' : 'production';
 
-// 导出配置
-window.AppConfig = {
+// 确保 window.AppConfig 存在
+window.AppConfig = window.AppConfig || {};
+
+// 扩展配置
+Object.assign(window.AppConfig, {
     // API端点
     ENDPOINTS: {
         SONGS: '/songs',
@@ -46,4 +49,4 @@ window.AppConfig = {
     
     // 是否为生产环境
     isProduction: () => currentEnv === 'production'
-}; 
+}); 
