@@ -65,6 +65,14 @@ jobs:
           sed -i 's/src="source.js"/src="assets\/js\/source.js"/g' docs/index.html
           sed -i 's/src="analyzer.js"/src="assets\/js\/analyzer.js"/g' docs/index.html
 
+          # 添加调试信息
+          echo "Listing docs directory contents:"
+          ls -la docs/
+          echo "Listing docs/assets/js directory contents:"
+          ls -la docs/assets/js/
+          echo "Listing docs/assets/css directory contents:"
+          ls -la docs/assets/css/
+
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
