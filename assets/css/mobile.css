@@ -1,0 +1,712 @@
+/* 移动端样式 */
+:root {
+    --nav-height: 60px; /* 减小导航栏默认高度 */
+    --nav-height-expanded: 160px; /* 增加展开时的高度，为调色板留出空间 */
+    --neon-pink: #FF00FF;
+    --neon-blue: #00F0FF;
+    --neon-purple: #9D00FF;
+    --dark-bg: #0A0A12;
+    --background-color: #0A0A12;
+    --primary-color: #00F0FF;
+    --secondary-color: #FF00FF;
+    --surface-color: rgba(10, 10, 18, 0.95);
+}
+
+/* 基础样式重置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+body {
+    font-family: 'Rajdhani', sans-serif;
+    background-color: var(--background-color);
+    color: var(--primary-color);
+    overflow-x: hidden;
+    font-size: 16px;
+    padding-top: var(--nav-height); /* 使用变量控制padding */
+    min-height: 100vh;
+}
+
+/* 导航栏样式 */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: var(--surface-color);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(var(--primary-color), 0.1);
+    height: var(--nav-height);
+    transition: height 0.3s ease;
+}
+
+nav {
+    padding: 0.5rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.logo {
+    font-size: 1.3rem;
+    font-weight: bold;
+    text-align: center;
+    padding: 0.3rem 0;
+}
+
+/* 隐藏导航链接和调色板按钮 */
+.nav-links, .theme-btn {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* 菜单展开时的样式 */
+header.menu-open {
+    height: var(--nav-height-expanded);
+}
+
+header.menu-open .nav-links {
+    display: flex;
+    opacity: 1;
+    justify-content: space-around;
+    padding: 0.5rem 0;
+    margin-top: 0.5rem;
+}
+
+header.menu-open .theme-btn {
+    display: block;
+    opacity: 1;
+    margin: 0.5rem auto;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+/* 菜单按钮样式 */
+.menu-btn {
+    display: block; /* 在移动端显示菜单按钮 */
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    font-size: 1.2rem;
+    padding: 0.5rem;
+    cursor: pointer;
+}
+
+.menu-btn:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+/* 主内容区域 */
+main {
+    width: 100%;
+    padding: 1rem;
+    padding-bottom: 80px; /* 为底部播放栏预留空间 */
+    min-height: calc(100vh - var(--nav-height)); /* 使用变量计算高度 */
+}
+
+.player-container {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 1rem;
+    background: var(--surface-color);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+}
+
+/* 专辑封面 */
+.album-art {
+    width: 250px;
+    height: 250px;
+    margin: 0 auto 1.5rem;
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.album-art img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.vinyl {
+    display: none; /* 移动端隐藏黑胶效果 */
+}
+
+/* 歌曲信息 */
+.track-info {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.track-title {
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+    color: var(--secondary-color);
+}
+
+.artist {
+    font-size: 1rem;
+    color: var(--primary-color);
+    opacity: 0.8;
+}
+
+/* 进度条 */
+.progress-container {
+    margin-bottom: 1.5rem;
+}
+
+.progress-bar {
+    height: 4px;
+    background: rgba(var(--primary-color), 0.1);
+    border-radius: 2px;
+    margin-bottom: 0.5rem;
+}
+
+.progress {
+    height: 100%;
+    background: var(--secondary-color);
+    border-radius: 2px;
+    position: relative;
+}
+
+.time-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--primary-color);
+}
+
+/* 控制按钮 */
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.control-btn {
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    font-size: 1.2rem;
+    padding: 0.5rem;
+    cursor: pointer;
+}
+
+.play-btn {
+    font-size: 1.8rem;
+    color: var(--secondary-color);
+}
+
+/* 音量控制 */
+.volume-control {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.volume-slider {
+    flex: 1;
+    height: 4px;
+    -webkit-appearance: none;
+    background: rgba(var(--primary-color), 0.1);
+    border-radius: 2px;
+}
+
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    background: var(--secondary-color);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* 频谱可视化 */
+.visualizer {
+    width: 100%;
+    height: 100px;
+    margin-bottom: 1.5rem;
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--surface-color);
+    border: 1px solid var(--primary-color);
+}
+
+#spectrum {
+    width: 100%;
+    height: 100%;
+}
+
+/* 歌单列表 */
+.songlist.recommended {
+    margin-top: 1rem;
+    width: 100%;
+    background: var(--surface-color);
+    border: 1px solid var(--primary-color);
+    border-radius: 10px;
+    padding: 1rem;
+}
+
+.songlist.recommended ul {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.songlist.recommended ul li {
+    background: rgba(var(--primary-color), 0.05);
+    border: 1px solid rgba(var(--primary-color), 0.1);
+    border-radius: 8px;
+    padding: 0.8rem;
+    transition: all 0.3s ease;
+}
+
+.songlist.recommended ul li:active {
+    background: rgba(var(--primary-color), 0.1);
+    transform: scale(0.98);
+}
+
+/* 歌曲信息样式 */
+.songlist.recommended ul .song {
+    display: grid;
+    grid-template-columns: 48px 1fr auto auto;
+    gap: 0.8rem;
+    align-items: center;
+    width: 100%;
+}
+
+/* 歌曲图片样式 */
+.songlist.recommended ul .songimg {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(var(--primary-color), 0.2);
+    position: relative;
+    cursor: pointer;
+}
+
+.songlist.recommended ul .songimg::before {
+    content: '\f04b';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 1;
+}
+
+.songlist.recommended ul .songimg:active::before {
+    opacity: 1;
+}
+
+.songlist.recommended ul .songimg.playing::before {
+    content: '\f04c';
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.songlist.recommended ul .songimg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all 0.3s ease;
+}
+
+.songlist.recommended ul .songimg:active img {
+    filter: brightness(0.7);
+}
+
+.songlist.recommended ul .songimg.playing img {
+    filter: brightness(0.7);
+}
+
+/* 歌曲名称和作者样式 */
+.songlist.recommended ul .songname {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    overflow: hidden;
+}
+
+.songlist.recommended ul .songname .name {
+    color: var(--text-color);
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.songlist.recommended ul .songname .singer {
+    color: var(--primary-color);
+    font-size: 0.85rem;
+    opacity: 0.8;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 时长样式 */
+.songlist.recommended ul .songtime {
+    color: var(--text-color);
+    opacity: 0.7;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    padding-right: 0.8rem;
+}
+
+/* 操作按钮样式 */
+.songlist.recommended ul .operation {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+}
+
+.songlist.recommended ul .operation span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid;
+    padding: 0;
+}
+
+.songlist.recommended ul .operation .add {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+    background: rgba(var(--primary-color), 0.1);
+}
+
+.songlist.recommended ul .operation .add::before {
+    content: '\f004';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 400;
+}
+
+.songlist.recommended ul .operation .added {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+    background: rgba(var(--primary-color), 0.1);
+}
+
+.songlist.recommended ul .operation .added::before {
+    content: '\f004';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+}
+
+.songlist.recommended ul .operation .delete::before {
+    content: '\f1f8';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+}
+
+.songlist.recommended ul .operation .remove::before {
+    content: '\f00d';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+}
+
+.songlist.recommended ul .operation .delete,
+.songlist.recommended ul .operation .remove {
+    color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    background: rgba(var(--secondary-color), 0.1);
+}
+
+.songlist.recommended ul .operation span:active {
+    transform: scale(0.95);
+    background: var(--primary-color);
+    color: var(--background-color);
+}
+
+/* 超小屏幕适配 */
+@media (max-width: 320px) {
+    :root {
+        --nav-height: 50px; /* 更小的导航栏高度 */
+        --nav-height-expanded: 140px; /* 更小的展开高度 */
+    }
+    
+    body {
+        font-size: 14px;
+    }
+    
+    header {
+        height: var(--nav-height);
+    }
+    
+    nav {
+        padding: 0.5rem;
+    }
+    
+    .logo {
+        font-size: 1.1rem;
+        padding: 0.2rem 0;
+    }
+    
+    .nav-links {
+        padding: 0.3rem 0;
+    }
+    
+    .nav-links a {
+        font-size: 0.8rem;
+    }
+
+    main {
+        padding: 0.8rem;
+        min-height: calc(100vh - var(--nav-height));
+    }
+
+    .songlist.recommended {
+        padding: 0.8rem;
+    }
+    
+    .songlist.recommended ul li {
+        padding: 0.6rem;
+    }
+    
+    .songlist.recommended ul .song {
+        grid-template-columns: 40px 1fr auto auto;
+        gap: 0.5rem;
+    }
+    
+    .songlist.recommended ul .songimg {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .songlist.recommended ul .songtime {
+        font-size: 0.75rem;
+        padding-right: 0.5rem;
+    }
+    
+    .songlist.recommended ul .operation {
+        gap: 0.4rem;
+    }
+    
+    .songlist.recommended ul .operation span {
+        width: 28px;
+        height: 28px;
+        font-size: 0.9rem;
+    }
+
+    .menu-btn {
+        font-size: 1rem;
+        right: 0.8rem;
+    }
+
+    header.menu-open .theme-btn {
+        font-size: 1rem;
+        margin: 0.3rem auto;
+    }
+
+    .theme-panel .theme-content {
+        padding: 0.8rem;
+    }
+
+    .theme-list {
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+    }
+
+    .color-inputs {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* 粒子效果canvas */
+#particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.5;
+}
+
+/* 动画效果 */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* 触摸反馈 */
+.control-btn:active,
+.nav-links a:active {
+    transform: scale(0.95);
+}
+
+/* 加载动画 */
+@keyframes loading {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 底部播放栏 */
+.bottom-player {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: var(--surface-color);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(var(--primary-color), 0.1);
+    padding: 0.8rem;
+    z-index: 1000;
+}
+
+/* 移动端显示底部播放栏 */
+@media (max-width: 768px) {
+    .bottom-player .mini-info {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+    }
+
+    .bottom-player .mini-cover {
+        width: 40px;
+        height: 40px;
+        border-radius: 4px;
+    }
+
+    .bottom-player .mini-text {
+        flex: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .bottom-player .mini-controls {
+        display: flex;
+        gap: 1rem;
+    }
+}
+
+/* 响应式调整 */
+@media (max-width: 320px) {
+    .album-art {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .track-title {
+        font-size: 1.2rem;
+    }
+    
+    .controls {
+        gap: 1rem;
+    }
+    
+    .control-btn {
+        font-size: 1rem;
+    }
+    
+    .play-btn {
+        font-size: 1.5rem;
+    }
+}
+
+/* 主题面板移动端样式优化 */
+@media (max-width: 768px) {
+    .theme-panel .theme-content {
+        width: 95%;
+        max-width: none;
+        margin: 1rem;
+        padding: 1rem;
+    }
+
+    .theme-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .color-inputs {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* 移动端显示菜单按钮和相关样式 */
+@media (max-width: 768px) {
+    .menu-btn {
+        display: block; /* 移动端显示菜单按钮 */
+    }
+
+    .nav-links {
+        display: none;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    header.menu-open {
+        height: var(--nav-height-expanded);
+    }
+
+    header.menu-open .nav-links {
+        display: flex;
+        opacity: 1;
+        justify-content: space-around;
+        padding: 0.5rem 0;
+        margin-top: 0.5rem;
+    }
+
+    header.menu-open .theme-btn {
+        display: block;
+        opacity: 1;
+        margin: 0.5rem auto;
+        text-align: center;
+        font-size: 1.1rem;
+    }
+}
+
+/* 允许选中的元素 */
+.songlist.recommended ul .songname .name,
+.songlist.recommended ul .songname .singer,
+.track-title,
+.artist {
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+} 
