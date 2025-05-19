@@ -50,6 +50,8 @@
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
                     },
+                    mode: 'cors',
+                    credentials: 'omit',
                     cache: 'no-store'
                 });
 

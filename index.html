@@ -92,31 +92,6 @@
 
     <canvas id="particles"></canvas>
     <script>
-        window.AppConfig = {
-            // API基础地址
-            API_BASE_URL: 'https://cyber-music-project-icrxwgwfc-lavendergongs-projects.vercel.app',
-            
-            // API端点
-            ENDPOINTS: {
-                SONGLIST: 'api/songs',
-                SONG_SEARCH: 'api/songs/search',
-                SONG_BY_ID: 'api/songs',
-                SONGS: 'api/songs'
-            },
-        
-            // 获取完整的API URL
-            getApiUrl(endpoint) {
-                return `${this.API_BASE_URL}/${endpoint}`;
-            },
-        
-            // 获取资源URL（如图片、音频等）
-            getResourceUrl(path) {
-                return `${this.API_BASE_URL}/${path}`;
-            }
-        }; 
-    </script>
-
-    <script>
         // 菜单控制
         document.addEventListener('DOMContentLoaded', function() {
             const menuBtn = document.querySelector('.menu-btn');
@@ -178,19 +153,18 @@
         window.addEventListener('resize', toggleBottomPlayer);
 
         // 修改后的音频初始化逻辑
-        const backhost = window.AppConfig.getApiUrl('api/songs');
         const audioPlayer = document.getElementById('audio-player');
         
         // 使用Fetch API替代XMLHttpRequest
-        fetch(backhost, {
+        fetch(window.AppConfig.getApiUrl(window.AppConfig.ENDPOINTS.SONGS), {
             method: 'GET',
-            credentials: 'include',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Origin': window.location.origin
+                'Content-Type': 'application/json'
             },
-            mode: 'cors'
+            mode: 'cors',
+            credentials: 'omit',
+            cache: 'no-store'
         })
             .then(response => {
                 if (!response.ok) {
@@ -217,7 +191,7 @@
         audioPlayer.addEventListener('error', function(e) {
             console.error('音频加载错误:', e.target.error);
         });
-        </script>
+    </script>
     <script src="assets/js/my.js"></script>
     <script src="assets/js/musicPlayer.js"></script>
     <script src="assets/js/likedList.js"></script>
