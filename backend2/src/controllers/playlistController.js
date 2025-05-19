@@ -4,6 +4,7 @@ const { validationResult } = require('express-validator');
 // 获取所有播放列表
 exports.getAllPlaylists = async (req, res) => {
     console.log(process.env.MONGODB_URI)
+    req.setHeaders('Access-Control-Allow-Origin', '*');
     try {
         const playlists = await Playlist.find()
             .populate('songs', '-__v')
