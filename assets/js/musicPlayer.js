@@ -42,6 +42,7 @@
 
         // 获取歌曲列表的方法
         async fetchSongList() {
+            console.log(window.AppConfig.getApiUrl(window.AppConfig.ENDPOINTS.SONGS))
             try {
                 const response = await fetch(window.AppConfig.getApiUrl(window.AppConfig.ENDPOINTS.SONGS), {
                     method: 'GET',
