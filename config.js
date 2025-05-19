@@ -1,5 +1,4 @@
 // 全局配置
-
 window.AppConfig = {
     // API基础地址
     API_BASE_URL: 'https://cyber-music-project-icrxwgwfc-lavendergongs-projects.vercel.app/',
