@@ -31,21 +31,26 @@ const corsOptions = {
         'http://127.0.0.1:3000'
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'Range'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Range', 'Accept', 'Origin'],
     exposedHeaders: ['Content-Range', 'X-Content-Range'],
     credentials: true,
-    maxAge: 86400 // 预检请求结果缓存24小时
+    maxAge: 86400, // 预检请求结果缓存24小时
+    preflightContinue: false,
+    optionsSuccessStatus: 204
 };
 
 app.use(cors(corsOptions));
 
 // 添加安全头
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', 'https://lavendergong.github.io');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Range');
+    const origin = req.headers.origin;
+    if (corsOptions.origin.includes(origin)) {
+        res.setHeader('Access-Control-Allow-Origin', origin);
+    }
+    res.setHeader('Access-Control-Allow-Methods', corsOptions.methods.join(', '));
+    res.setHeader('Access-Control-Allow-Headers', corsOptions.allowedHeaders.join(', '));
     res.setHeader('Access-Control-Allow-Credentials', 'true');
-    res.setHeader('Access-Control-Expose-Headers', 'Content-Range, X-Content-Range');
+    res.setHeader('Access-Control-Expose-Headers', corsOptions.exposedHeaders.join(', '));
     next();
 });
 
