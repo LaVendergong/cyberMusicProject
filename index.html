@@ -10,9 +10,9 @@
     <title>CYBERBEAT | 波形音乐播放器</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/mobile.css" media="screen and (max-width: 768px)">
-    <script src="assets/js/config.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="mobile.css" media="screen and (max-width: 768px)">
+    <script src="config.js"></script>
 </head>
 <body>
     
@@ -86,7 +86,7 @@
                 </ul>
             </div>
             <!-- 音频元素 -->
-            <audio id="audio-player" src="" crossOrigin="anonymous"></audio> <!-- 增加跨域属性 -->
+            <audio id="audio-player" src="" crossOrigin="anonymous"></audio>
         </div>
     </main>
 
@@ -159,8 +159,11 @@
         fetch(window.AppConfig.getApiUrl(window.AppConfig.ENDPOINTS.SONGS), {
             method: 'GET',
             headers: {
-                'Accept': 'application/json'
-            }
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            mode: 'cors',
+            credentials: 'omit'
         })
             .then(response => {
                 if (!response.ok) {
@@ -180,7 +183,7 @@
             .catch(error => {
                 console.error('请求失败:', error);
                 // 使用默认音频
-                audioPlayer.src = 'assets/audio/fallback.mp3';
+                audioPlayer.src = '1141641196.mp3';
             });
     
         // 添加错误监听
@@ -188,14 +191,14 @@
             console.error('音频加载错误:', e.target.error);
         });
     </script>
-    <script src="assets/js/my.js"></script>
-    <script src="assets/js/musicPlayer.js"></script>
-    <script src="assets/js/likedList.js"></script>
-    <script src="assets/js/playlist.js"></script>
-    <script src="assets/js/share.js"></script>
-    <script src="assets/js/theme.js"></script>
-    <script src="assets/js/source.js"></script>
-    <script src="assets/js/analyzer.js"></script>
+    <script src="my.js"></script>
+    <script src="musicPlayer.js"></script>
+    <script src="likedList.js"></script>
+    <script src="playlist.js"></script>
+    <script src="share.js"></script>
+    <script src="theme.js"></script>
+    <script src="source.js"></script>
+    <script src="analyzer.js"></script>
     
     <!-- 分享弹窗 -->
     <div class="share-modal" style="display: none;">

@@ -1,47 +1,67 @@
-// 假设这里是创建 AudioContext 和 AnalyserNode 的代码
-const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-const analyser = audioContext.createAnalyser();
-
-// 确保音频源连接到 AnalyserNode
-const audioElement = document.getElementById('audio-player');
-const source = audioContext.createMediaElementSource(audioElement);
-source.connect(analyser);
-analyser.connect(audioContext.destination);
-
 // 音频分析器
-const audioAnalyzer = {
-    analyser: null,
-    dataArray: null,
-    bufferLength: 0,
-    
-    init(audioContext, source) {
-        if (this.analyser) {
-            this.analyser.disconnect();
-        }
-        
-        this.analyser = audioContext.createAnalyser();
-        this.analyser.fftSize = 2048;
-        source.connect(this.analyser);
-        
-        this.bufferLength = this.analyser.frequencyBinCount;
-        this.dataArray = new Uint8Array(this.bufferLength);
-    },
-    
-    getFrequencyData() {
-        if (!this.analyser) return null;
-        this.analyser.getByteFrequencyData(this.dataArray);
-        return this.dataArray;
-    },
-    
-    getWaveformData() {
-        if (!this.analyser) return null;
-        this.analyser.getByteTimeDomainData(this.dataArray);
-        return this.dataArray;
-    }
-};
+let analyser = null;
+let audioContext = null;
+let source = null;
 
-// 导出分析器
-window.AudioAnalyzer = audioAnalyzer;
+// 初始化音频分析器
+function initAnalyzer() {
+    if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    
+    const audioElement = document.getElementById('audio-player');
+    if (!audioElement) return null;
+    
+    if (source) {
+        source.disconnect();
+    }
+    
+    source = audioContext.createMediaElementSource(audioElement);
+    source.connect(audioContext.destination);
+    
+    if (analyser) {
+        analyser.disconnect();
+    }
+    
+    analyser = audioContext.createAnalyser();
+    analyser.fftSize = 2048;
+    source.connect(analyser);
+    
+    return analyser;
+}
+
+// 获取音频数据
+function getAudioData() {
+    if (!analyser) return null;
+    
+    const bufferLength = analyser.frequencyBinCount;
+    const dataArray = new Uint8Array(bufferLength);
+    analyser.getByteFrequencyData(dataArray);
+    return dataArray;
+}
+
+// 清理分析器
+function cleanupAnalyzer() {
+    if (analyser) {
+        analyser.disconnect();
+        analyser = null;
+    }
+    if (source) {
+        source.disconnect();
+        source = null;
+    }
+    if (audioContext) {
+        audioContext.close();
+        audioContext = null;
+    }
+}
+
+// 导出函数
+window.AudioAnalyzer = {
+    init: initAnalyzer,
+    getData: getAudioData,
+    cleanup: cleanupAnalyzer
+};
 
 // 定义 process 函数
 function process() {

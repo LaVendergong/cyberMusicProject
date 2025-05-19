@@ -18,9 +18,45 @@ const healthRoutes = require('./routes/healthRoutes');
 
 const app = express();
 
-// 简化的 CORS 配置
+// 详细的 CORS 配置
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
+    // 允许的源
+    const allowedOrigins = [
+        'http://localhost:3000',
+        'http://localhost:5173',
+        'http://localhost:5500',
+        'http://localhost:5501',
+        'http://127.0.0.1:3000',
+        'http://127.0.0.1:5173',
+        'http://127.0.0.1:5500',
+        'http://127.0.0.1:5501'
+    ];
+    
+    const origin = req.headers.origin;
+    if (allowedOrigins.includes(origin)) {
+        res.setHeader('Access-Control-Allow-Origin', origin);
+    }
+
+    // 允许的请求方法
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    
+    // 允许的请求头
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin, Range');
+    
+    // 允许的响应头
+    res.setHeader('Access-Control-Expose-Headers', 'Content-Range, X-Content-Range, Content-Length, Content-Type');
+    
+    // 允许发送凭证
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    
+    // 预检请求缓存时间
+    res.setHeader('Access-Control-Max-Age', '86400');
+    
+    // 处理预检请求
+    if (req.method === 'OPTIONS') {
+        return res.status(204).end();
+    }
+    
     next();
 });
 
@@ -50,6 +86,15 @@ const staticOptions = {
         } else if (path.endsWith('.flac')) {
             res.set('Content-Type', 'audio/flac');
         }
+        
+        // 设置缓存控制
+        res.set('Cache-Control', 'public, max-age=31536000');
+        
+        // 设置跨域头
+        res.set('Access-Control-Allow-Origin', '*');
+        res.set('Access-Control-Allow-Methods', 'GET, HEAD');
+        res.set('Access-Control-Allow-Headers', 'Range');
+        res.set('Access-Control-Expose-Headers', 'Content-Range, Content-Length');
     }
 };
 
