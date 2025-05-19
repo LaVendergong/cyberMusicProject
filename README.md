@@ -30,4 +30,4 @@ QQ: 2640833939
 ![image](https://github.com/user-attachments/assets/50296a06-482c-40f6-b08c-23f2b1f2f8fe)
 
 2025/5/18 0:07 add mobile styles but a little not perfect
-2025/5/18 9:33 add a lot of useful things,update the audio visualliser,add cudtumized themes,adjustment many details and so on.1
+2025/5/18 9:33 add a lot of useful things,update the audio visualliser,add cudtumized themes,adjustment many details and so on.
