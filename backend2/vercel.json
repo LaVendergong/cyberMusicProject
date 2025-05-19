@@ -22,12 +22,21 @@
                 "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
                 "Access-Control-Allow-Headers": "Content-Type, Authorization, Range, Accept, Origin, X-Requested-With",
                 "Access-Control-Allow-Credentials": "true",
-                "Access-Control-Expose-Headers": "Content-Range, X-Content-Range"
+                "Access-Control-Expose-Headers": "Content-Range, X-Content-Range",
+                "Access-Control-Max-Age": "86400"
             }
         },
         {
             "src": "/(.*)",
-            "dest": "src/app.js"
+            "dest": "src/app.js",
+            "headers": {
+                "Access-Control-Allow-Origin": "https://lavendergong.github.io",
+                "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+                "Access-Control-Allow-Headers": "Content-Type, Authorization, Range, Accept, Origin, X-Requested-With",
+                "Access-Control-Allow-Credentials": "true",
+                "Access-Control-Expose-Headers": "Content-Range, X-Content-Range",
+                "Access-Control-Max-Age": "86400"
+            }
         }
     ],
     "env": {
