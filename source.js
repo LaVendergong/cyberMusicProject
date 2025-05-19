@@ -14,7 +14,7 @@
 // 是否开启开发模式
 const DEV_ENABLE = true
 // 服务端地址
-const API_URL = 'http://43.248.185.248:9763'
+const API_URL = window.AppConfig.getSourceApiUrl();
 // 服务端配置的请求key
 const API_KEY = 'lxmusicisyyds'
 // 音质配置(key为音源名称,不要乱填.如果你账号为VIP可以填写到hires)
