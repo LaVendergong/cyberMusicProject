@@ -45,7 +45,6 @@
             try {
                 const response = await fetch(window.AppConfig.getApiUrl(window.AppConfig.ENDPOINTS.SONGS), {
                     method: 'GET',
-                    credentials: 'include',
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
