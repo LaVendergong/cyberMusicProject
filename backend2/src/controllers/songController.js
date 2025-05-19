@@ -1,5 +1,6 @@
 const Song = require('../models/Song');
 const { validationResult } = require('express-validator');
+const logger = require('../utils/logger');
 
 // 获取所有歌曲
 exports.getAllSongs = async (req, res) => {
@@ -10,11 +11,11 @@ exports.getAllSongs = async (req, res) => {
             data: songs
         });
     } catch (error) {
-        console.log(process.env.MONGODB_URI)
+        logger.error('获取歌曲列表失败:', error);
         res.status(500).json({
             success: false,
             message: '获取歌曲列表失败',
-            error: error.message
+            error: process.env.NODE_ENV === 'development' ? error.message : '服务器内部错误'
         });
     }
 };
