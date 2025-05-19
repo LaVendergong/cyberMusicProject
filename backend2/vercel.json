@@ -9,32 +9,14 @@
     "routes": [
         {
             "src": "/api/(.*)",
-            "dest": "src/app.js",
-            "headers": {
-                "Access-Control-Allow-Origin": "https://lavendergong.github.io",
-                "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-                "Access-Control-Allow-Headers": "Content-Type, Authorization, Range, Accept, Origin, X-Requested-With",
-                "Access-Control-Allow-Credentials": "true",
-                "Access-Control-Expose-Headers": "Content-Range, X-Content-Range",
-                "Access-Control-Max-Age": "86400"
-            }
+            "dest": "src/app.js"
         },
         {
             "src": "/(.*)",
-            "dest": "src/app.js",
-            "headers": {
-                "Access-Control-Allow-Origin": "https://lavendergong.github.io",
-                "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-                "Access-Control-Allow-Headers": "Content-Type, Authorization, Range, Accept, Origin, X-Requested-With",
-                "Access-Control-Allow-Credentials": "true",
-                "Access-Control-Expose-Headers": "Content-Range, X-Content-Range",
-                "Access-Control-Max-Age": "86400"
-            }
+            "dest": "src/app.js"
         }
     ],
     "env": {
-        "NODE_ENV": "production",
-        "CORS_ORIGIN": "https://lavendergong.github.io",
-        "ALLOWED_ORIGINS": "https://lavendergong.github.io,http://localhost:3000,http://127.0.0.1:3000"
+        "NODE_ENV": "production"
     }
 } 
