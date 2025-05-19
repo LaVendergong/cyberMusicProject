@@ -20,29 +20,23 @@ const logger = winston.createLogger({
                 winston.format.colorize(),
                 winston.format.simple()
             )
-        }),
-        // 文件输出
-        new winston.transports.File({
-            filename: path.join(__dirname, '../../logs/error.log'),
-            level: 'error',
-            maxsize: 5242880, // 5MB
-            maxFiles: 5,
-        }),
-        new winston.transports.File({
-            filename: path.join(__dirname, '../../logs/combined.log'),
-            maxsize: 5242880, // 5MB
-            maxFiles: 5,
         })
     ]
 });
 
-// 开发环境下添加更多详细信息
-if (process.env.NODE_ENV !== 'production') {
-    logger.add(new winston.transports.Console({
-        format: winston.format.combine(
-            winston.format.colorize(),
-            winston.format.simple()
-        )
+// 如果不是 Vercel 环境，添加文件输出
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+    logger.add(new winston.transports.File({
+        filename: path.join(__dirname, '../../logs/error.log'),
+        level: 'error',
+        maxsize: 5242880, // 5MB
+        maxFiles: 5,
+    }));
+    
+    logger.add(new winston.transports.File({
+        filename: path.join(__dirname, '../../logs/combined.log'),
+        maxsize: 5242880, // 5MB
+        maxFiles: 5,
     }));
 }
 
