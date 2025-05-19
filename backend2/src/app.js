@@ -140,6 +140,15 @@ app.use('/api/health', healthRoutes);
 app.use('/api/songs', songRoutes);
 app.use('/api/playlists', playlistRoutes);
 
+// 添加测试路由
+app.get('/test', (req, res) => {
+    res.json({
+        success: true,
+        message: 'API 服务器运行正常',
+        timestamp: new Date().toISOString()
+    });
+});
+
 // 处理 404 错误
 app.use((req, res) => {
     res.status(404).json({
