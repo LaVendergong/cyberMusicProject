@@ -27,13 +27,16 @@ Object.assign(window.AppConfig, {
         SONGS: '/api/songs'
     },
     getApiUrl: function(endpoint) {
-        return `${ENV[currentEnv].API_URL}${endpoint}`;
+        const baseUrl = ENV[currentEnv].API_URL;
+        return `${baseUrl}${endpoint}`;
     },
     getSourceApiUrl: function(endpoint) {
-        return `${ENV[currentEnv].SOURCE_API_URL}${endpoint}`;
+        const baseUrl = ENV[currentEnv].SOURCE_API_URL;
+        return `${baseUrl}${endpoint}`;
     },
     getResourceUrl: function(path) {
-        return `${ENV[currentEnv].API_URL}${path}`;
+        const baseUrl = ENV[currentEnv].API_URL;
+        return `${baseUrl}${path}`;
     },
     isDevelopment: function() {
         return currentEnv === 'development';
