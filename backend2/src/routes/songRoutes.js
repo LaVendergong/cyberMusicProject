@@ -16,8 +16,11 @@ const songValidation = [
 // 获取所有歌曲
 router.get('/', songController.getAllSongs);
 
-// 获取单个歌曲
-router.get('/:id', songController.getSongById);
+// 获取单个歌曲信息
+router.get('/:id', songController.getSongInfo);
+
+// 获取歌曲音频文件
+router.get('/:id/audio', songController.getSongAudio);
 
 // 添加新歌曲
 router.post('/', 

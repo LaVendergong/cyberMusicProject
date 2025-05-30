@@ -3,6 +3,7 @@ const morgan = require('morgan');
 const path = require('path');
 const fs = require('fs');
 require('dotenv').config();
+const cors = require('cors');
 
 // 导入日志配置
 const logger = require('./config/logger');
@@ -18,50 +19,20 @@ const healthRoutes = require('./routes/healthRoutes');
 
 const app = express();
 
-// 详细的 CORS 配置
-app.use((req, res, next) => {
-    // 允许的源
-    const allowedOrigins = [
-        'http://localhost:3000',
-        'http://localhost:5173',
-        'http://localhost:5500',
-        'http://localhost:5501',
-        'http://127.0.0.1:3000',
-        'http://127.0.0.1:5173',
-        'http://127.0.0.1:5500',
-        'http://127.0.0.1:5501'
-    ];
-    
-    const origin = req.headers.origin;
-    if (allowedOrigins.includes(origin)) {
-        res.setHeader('Access-Control-Allow-Origin', origin);
-    }
-
-    // 允许的请求方法
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    
-    // 允许的请求头
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin, Range');
-    
-    // 允许的响应头
-    res.setHeader('Access-Control-Expose-Headers', 'Content-Range, X-Content-Range, Content-Length, Content-Type');
-    
-    // 允许发送凭证
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
-    
-    // 预检请求缓存时间
-    res.setHeader('Access-Control-Max-Age', '86400');
-    
-    // 处理预检请求
-    if (req.method === 'OPTIONS') {
-        return res.status(204).end();
-    }
-    
-    next();
-});
-
 // 连接数据库
 connectDB();
+
+// 中间件
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Range'],
+    exposedHeaders: ['Content-Range', 'Content-Length', 'Accept-Ranges'],
+    credentials: true
+}));
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // 日志配置
 app.use(morgan('combined', {
@@ -69,9 +40,6 @@ app.use(morgan('combined', {
         write: (message) => logger.info(message.trim())
     }
 }));
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 // 静态文件服务配置
 const staticOptions = {
@@ -92,9 +60,10 @@ const staticOptions = {
         
         // 设置跨域头
         res.set('Access-Control-Allow-Origin', '*');
-        res.set('Access-Control-Allow-Methods', 'GET, HEAD');
-        res.set('Access-Control-Allow-Headers', 'Range');
-        res.set('Access-Control-Expose-Headers', 'Content-Range, Content-Length');
+        res.set('Access-Control-Allow-Methods', 'GET, HEAD, OPTIONS');
+        res.set('Access-Control-Allow-Headers', 'Range, Content-Type, Authorization');
+        res.set('Access-Control-Expose-Headers', 'Content-Range, Content-Length, Accept-Ranges');
+        res.set('Accept-Ranges', 'bytes');
     }
 };
 
@@ -103,6 +72,11 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads'), staticOpt
 app.use('/public', express.static(path.join(__dirname, '../public'), staticOptions));
 app.use('/localmusics', express.static(path.join(__dirname, '../public/localmusics'), staticOptions));
 app.use('/images', express.static(path.join(__dirname, '../public/images'), staticOptions));
+
+// API 路由
+app.use('/api/health', healthRoutes);
+app.use('/api/songs', songRoutes);
+app.use('/api/playlists', playlistRoutes);
 
 // 添加对音频范围请求的支持
 app.get('/localmusics/*', (req, res, next) => {
@@ -129,11 +103,6 @@ app.get('/localmusics/*', (req, res, next) => {
     }
 });
 
-// API 路由
-app.use('/api/health', healthRoutes);
-app.use('/api/songs', songRoutes);
-app.use('/api/playlists', playlistRoutes);
-
 // 添加测试路由
 app.get('/test', (req, res) => {
     res.json({
@@ -153,7 +122,12 @@ app.use((req, res) => {
 
 // 错误处理中间件
 app.use((err, req, res, next) => {
-    next(err);
+    logger.error(err.stack);
+    res.status(500).json({
+        success: false,
+        message: '服务器内部错误',
+        error: process.env.NODE_ENV === 'development' ? err.message : '未知错误'
+    });
 });
 
 // 启动服务器

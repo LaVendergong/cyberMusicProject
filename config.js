@@ -1,16 +1,16 @@
 // 环境配置
 const ENV = {
     development: {
-        API_URL: 'http://127.0.0.1:3000',
-        SOURCE_API_URL: 'http://127.0.0.1:3000'
+        API_URL: 'https://cyber-music-project-llfbko1k8-lavendergongs-projects.vercel.app/api',
+        SOURCE_API_URL: 'https://cyber-music-project-llfbko1k8-lavendergongs-projects.vercel.app/api'
     },
     production: {
-        API_URL: 'https://cyber-music-project-icrxwgwfc-lavendergongs-projects.vercel.app',
-        SOURCE_API_URL: 'https://cyber-music-project-icrxwgwfc-lavendergongs-projects.vercel.app'
+        API_URL: 'https://cyber-music-project-llfbko1k8-lavendergongs-projects.vercel.app/api',
+        SOURCE_API_URL: 'https://cyber-music-project-llfbko1k8-lavendergongs-projects.vercel.app/api'
     }
 };
 
-// 确定当前环境 - 优先使用开发环境
+// 确定当前环境
 const currentEnv = 'development';
 
 // 确保 window.AppConfig 存在
@@ -21,10 +21,10 @@ Object.assign(window.AppConfig, {
     ENV: ENV,
     currentEnv: currentEnv,
     ENDPOINTS: {
-        SONGLIST: '/api/songlist',
-        SONG_SEARCH: '/api/songs/search',
-        SONG_BY_ID: '/api/songs',
-        SONGS: '/api/songs'
+        SONGLIST: '/songlist',
+        SONG_SEARCH: '/songs/search',
+        SONG_BY_ID: '/songs',
+        SONGS: '/songs'
     },
     getApiUrl: function(endpoint) {
         const baseUrl = ENV[currentEnv].API_URL;
@@ -39,9 +39,9 @@ Object.assign(window.AppConfig, {
         return `${baseUrl}${path}`;
     },
     isDevelopment: function() {
-        return true; // 始终返回 true，强制使用开发环境
+        return true;
     },
     getEnvironment: function() {
-        return 'development'; // 始终返回 development
+        return 'development';
     }
 }); 

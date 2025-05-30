@@ -4,31 +4,22 @@ const logger = require('./logger');
 const connectDB = async () => {
     try {
         logger.info('正在连接数据库...');
-        // 确保连接字符串包含数据库名称
-        const dbName = 'music_player'; // 指定数据库名称
-        const uri = process.env.MONGODB_URI.endsWith(dbName) 
-            ? process.env.MONGODB_URI 
-            : `${process.env.MONGODB_URI}/${dbName}`;
-            
-        logger.info(`数据库URI: ${uri.replace(/\/\/[^:]+:[^@]+@/, '//****:****@')}`);
-
-        const options = {
+        
+        // 设置 mongoose 调试模式
+        mongoose.set('debug', true);
+        
+        const conn = await mongoose.connect('mongodb://localhost:27017/music', {
             useNewUrlParser: true,
             useUnifiedTopology: true,
-            serverSelectionTimeoutMS: 10000,
-            socketTimeoutMS: 45000,
-            connectTimeoutMS: 10000,
-            retryWrites: true,
-            retryReads: true,
-            maxPoolSize: 10,
-            minPoolSize: 5,
-            heartbeatFrequencyMS: 2000,
-            family: 4,
-            dbName: 'music' // 显式指定数据库名称
-        };
-
-        const conn = await mongoose.connect(uri, options);
+        });
         
+        logger.info(`MongoDB 连接成功: ${conn.connection.host}`);
+        logger.info(`数据库名称: ${conn.connection.name}`);
+
+        // 测试数据库连接
+        const collections = await mongoose.connection.db.listCollections().toArray();
+        logger.info('数据库中的集合:', collections.map(c => c.name));
+
         mongoose.connection.on('connected', () => {
             logger.info(`MongoDB 已连接: ${conn.connection.host}`);
             logger.info(`数据库名称: ${conn.connection.name}`);
@@ -57,7 +48,7 @@ const connectDB = async () => {
         });
 
     } catch (error) {
-        logger.error(`数据库连接错误: ${error.message}`);
+        logger.error(`MongoDB 连接错误: ${error.message}`);
         logger.error('错误详情:', error);
         logger.info('5秒后尝试重新连接...');
         setTimeout(connectDB, 5000);

@@ -1,0 +1,102 @@
+/* 全局变量 */
+:root {
+    --neon-pink: #FF00FF;
+    --neon-blue: #00F0FF;
+    --neon-purple: #9D00FF;
+    --dark-bg: #0A0A12;
+    --primary-color: var(--neon-blue);
+    --secondary-color: var(--neon-pink);
+    --background-color: var(--dark-bg);
+    --surface-color: rgba(10, 10, 18, 0.8);
+}
+
+/* 基础重置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+/* 基础样式 */
+body {
+    font-family: 'Rajdhani', sans-serif;
+    background-color: var(--background-color);
+    color: var(--primary-color);
+  margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    min-height: 100vh;
+  display: flex;
+    flex-direction: column;
+}
+
+/* 动画效果 */
+@keyframes glitch-effect {
+    0% { transform: translate(0); }
+    20% { transform: translate(-3px, 3px); }
+    40% { transform: translate(-3px, -3px); }
+    60% { transform: translate(3px, 3px); }
+    80% { transform: translate(3px, -3px); }
+    100% { transform: translate(0); }
+}
+
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes equalizer {
+    0% { height: 10%; }
+    100% { height: 100%; }
+}
+
+@keyframes flowingNeon {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+@keyframes flicker {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        opacity: 0.6;
+        text-shadow: 0 0 5px currentColor;
+}
+    20%, 24%, 55% {
+        opacity: 0.2;
+        text-shadow: none;
+}
+}
+
+@keyframes energy-pulse {
+    0%, 100% { 
+        box-shadow: 0 0 5px var(--primary-color);
+    }
+    50% { 
+        box-shadow: 0 0 30px var(--secondary-color);
+        filter: brightness(1.2);
+    }
+}
+
+@keyframes flux {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 200% 200%; }
+}
+
+/* 扫描线效果 */
+.scanlines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        rgba(0, 240, 255, 0.05) 1px,
+        transparent 2px
+    );
+    pointer-events: none;
+    z-index: -1;
+}
